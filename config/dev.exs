@@ -30,4 +30,8 @@ config :victor, Victor.Repo,
   hostname: "localhost",
   pool_size: 10
 
+config :victor, :deploy_notification_auth,
+  username: "dev",
+  password: "pa55w0rd"
+
 import_config "dev.secret.exs"
