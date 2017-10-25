@@ -28,10 +28,29 @@ defmodule VictorWeb.Router do
   # end
 
   def authenticate(conn, _) do
-    if conn |> get_session("authenticated") == true do
+    if authenticated?(conn) do
       conn
     else
-      conn |> put_status(401) |> Phoenix.Controller.text("unauthenticated") |> halt()
+      conn
+      |> redirect(to: "/app/signin")
+      |> halt()
+    end
+  end
+
+  @public_key Application.get_env(:victor, :authority) |> Keyword.get(:public_key)
+  @valid_id_token_fn Application.get_env(:victor, :authority) |> Keyword.get(:valid_id_token, fn _ -> true end)
+
+  defp authenticated?(conn) do
+    with id_token when not is_nil(id_token) <- get_session(conn, "id_token")
+    do
+      case JOSE.JWT.verify_strict(@public_key, ["PS256"], id_token) do
+        {true, %{fields: fields}, _jws} ->
+          @valid_id_token_fn.(fields)
+        _ ->
+          false
+      end
+    else
+      _ -> false
     end
   end
 
@@ -71,6 +90,7 @@ defmodule VictorWeb.Router do
 
     get "/signin", AuthController, :signin
     get "/signout", AuthController, :signout
+    get "/auth/callback", AuthController, :callback
     post "/deploy-notification", DeployController, :deploy
   end
 
@@ -78,6 +98,6 @@ defmodule VictorWeb.Router do
   scope "/", VictorWeb do
     pipe_through :authenticated_browser
 
-    match :*, "*anything", PageController, :not_found
+    match :*, "/*anything", PageController, :not_found
   end
 end

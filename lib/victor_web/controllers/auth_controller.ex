@@ -1,10 +1,47 @@
 defmodule VictorWeb.AuthController do
   use VictorWeb, :controller
 
+  @authority_config Application.get_env(:victor, :authority)
+  @authorize_url Keyword.get(@authority_config, :authorize_url)
+  @redirect_uri Keyword.get(@authority_config, :redirect_uri)
+  @claims Poison.encode!(%{id_token: %{email: %{essential: true}}})
+  @scope "openid profile"
+
+  def callback(conn, %{"id_token" => id_token, "state" => state}) do
+    case get_session(conn, "state") do
+      ^state ->
+        conn
+        |> put_session("id_token", id_token)
+        |> redirect(to: "/")
+      _ ->
+        conn
+        |> put_status(401)
+        |> text("there was a problem authenticating you")
+    end
+  end
+
   def signin(conn, _params) do
+    state = SecureRandom.hex
+    nonce = SecureRandom.hex
+    query = URI.encode_query(%{
+      provider: :microsoft,
+      state: state,
+      nonce: nonce,
+      response_type: :id_token,
+      client_id: :victor,
+      redirect_uri: @redirect_uri,
+      scope: @scope,
+      claims: @claims
+    })
+    uri = @authorize_url
+          |> URI.parse()
+          |> Map.put(:query, query)
+          |> to_string()
+
     conn
-    |> put_session("authenticated", true)
-    |> redirect(to: "/")
+    |> put_session("state", state)
+    |> put_session("nonce", nonce)
+    |> redirect(external: uri)
   end
 
   def signout(conn, _params) do
