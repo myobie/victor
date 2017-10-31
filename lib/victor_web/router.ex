@@ -62,7 +62,7 @@ defmodule VictorWeb.Router do
     case conn do
       %{method: "GET", request_path: path} ->
         cond do
-          hugo_dir?(path) -> append_index_dot_html(conn) |> IO.inspect()
+          hugo_dir?(path) -> append_index_dot_html(conn)
           true -> conn
         end
       _ ->
