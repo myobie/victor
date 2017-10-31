@@ -9,6 +9,11 @@ defmodule VictorWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :notifications do
+    plug :accepts, ["html", "json"]
+    plug :put_secure_browser_headers
+  end
+
   pipeline :authenticated_browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -90,6 +95,11 @@ defmodule VictorWeb.Router do
     get "/signin", AuthController, :signin
     get "/signout", AuthController, :signout
     get "/auth/callback", AuthController, :callback
+  end
+
+  scope "/app", VictorWeb do
+    pipe_through :notifications
+
     post "/deploy-notification", DeployController, :deploy
   end
 
