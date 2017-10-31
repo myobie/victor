@@ -22,14 +22,6 @@ config :logger, :console, format: "[$level] $message\n"
 
 config :phoenix, :stacktrace_depth, 20
 
-config :victor, Victor.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("USER"),
-  password: "",
-  database: "victor_dev",
-  hostname: "localhost",
-  pool_size: 10
-
 config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"

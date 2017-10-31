@@ -37,15 +37,14 @@ defmodule VictorWeb.Router do
     end
   end
 
-  @public_key Application.get_env(:victor, :authority) |> Keyword.get(:public_key)
-  @valid_id_token_fn Application.get_env(:victor, :authority) |> Keyword.get(:valid_id_token, fn _ -> true end)
+  @jwt_type ["PS256"]
 
   defp authenticated?(conn) do
     with id_token when not is_nil(id_token) <- get_session(conn, "id_token")
     do
-      case JOSE.JWT.verify_strict(@public_key, ["PS256"], id_token) do
+      case JOSE.JWT.verify_strict(Victor.Auth.public_key(), @jwt_type, id_token) do
         {true, %{fields: fields}, _jws} ->
-          @valid_id_token_fn.(fields)
+          Victor.Auth.valid?(fields)
         _ ->
           false
       end

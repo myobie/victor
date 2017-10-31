@@ -1,9 +1,6 @@
 defmodule VictorWeb.AuthController do
   use VictorWeb, :controller
 
-  @authority_config Application.get_env(:victor, :authority)
-  @authorize_url Keyword.get(@authority_config, :authorize_url)
-  @redirect_uri Keyword.get(@authority_config, :redirect_uri)
   @claims Poison.encode!(%{id_token: %{email: %{essential: true}}})
   @scope "openid profile"
 
@@ -29,11 +26,11 @@ defmodule VictorWeb.AuthController do
       nonce: nonce,
       response_type: :id_token,
       client_id: :victor,
-      redirect_uri: @redirect_uri,
+      redirect_uri: Victor.Auth.redirect_uri(),
       scope: @scope,
       claims: @claims
     })
-    uri = @authorize_url
+    uri = Victor.Auth.authorize_url()
           |> URI.parse()
           |> Map.put(:query, query)
           |> to_string()
