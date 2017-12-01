@@ -14,6 +14,13 @@ defmodule VictorWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :authenticated_feature do
+    plug :accepts, ["html", "json"]
+    plug :fetch_session
+    plug :put_secure_browser_headers
+    plug :authenticate
+  end
+
   pipeline :authenticated_browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -101,6 +108,13 @@ defmodule VictorWeb.Router do
     pipe_through :notifications
 
     post "/deploy-notification", DeployController, :deploy
+  end
+
+  scope "/app/editor", VictorWeb do
+    pipe_through :authenticated_feature
+
+    get "/", EditorController, :show
+    post "/", EditorController, :update
   end
 
   # TODO: make authentication opt-in
