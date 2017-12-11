@@ -24,14 +24,4 @@ defmodule VictorWeb.ChannelCase do
       @endpoint VictorWeb.Endpoint
     end
   end
-
-
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Victor.Repo)
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Victor.Repo, {:shared, self()})
-    end
-    :ok
-  end
-
 end

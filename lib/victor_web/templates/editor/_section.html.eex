@@ -1,0 +1,8 @@
+<li>
+  <h2><%= title(@section) %></h2>
+  <ul>
+    <%= for section <- @section.subsections do %>
+      <%= render "_section.html", section: section %>
+    <% end %>
+  </ul>
+</li>

@@ -111,15 +111,19 @@ defmodule VictorWeb.Router do
   end
 
   scope "/app/editor", VictorWeb do
-    pipe_through :authenticated_feature
+    pipe_through :browser
 
     get "/", EditorController, :show
     post "/", EditorController, :update
   end
 
-  # TODO: make authentication opt-in
   scope "/", VictorWeb do
-    pipe_through :authenticated_browser
+    case Application.fetch_env(:victor, :requires_authentication) do
+      {:ok, true} ->
+        pipe_through(:authenticated_browser)
+      :error ->
+        pipe_through(:browser)
+    end
 
     match :*, "/*anything", PageController, :not_found
   end

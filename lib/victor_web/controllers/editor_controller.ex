@@ -1,8 +1,14 @@
 defmodule VictorWeb.EditorController do
   use VictorWeb, :controller
 
+  alias Victor.Editor
+
   def show(conn, _params) do
-    text conn, "This is the editor"
+    with {:ok, sections} <- Editor.content() do
+      conn
+      |> assign(:sections, sections)
+      |> render()
+    end
   end
 
   def update(conn, _params) do

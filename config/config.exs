@@ -7,7 +7,7 @@ use Mix.Config
 
 # General application configuration
 config :victor,
-  ecto_repos: [Victor.Repo]
+  ecto_repos: []
 
 # Configures the endpoint
 config :victor, VictorWeb.Endpoint,

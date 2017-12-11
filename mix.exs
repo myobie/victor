@@ -46,6 +46,7 @@ defmodule Victor.Mixfile do
       {:cowboy, "~> 1.0"},
       {:secure_random, "~> 0.5.1"},
       {:jose, "~> 1.8"},
+      {:yaml_elixir, "~> 1.3"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:distillery, "~> 1.5"},
       {:build_release, github: "myobie/build_release", only: [:dev]}
@@ -54,9 +55,6 @@ defmodule Victor.Mixfile do
 
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

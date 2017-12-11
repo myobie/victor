@@ -3,7 +3,9 @@ defmodule Victor.Hugo do
   @url Keyword.get(@config, :url)
   @path Keyword.get(@config, :path)
 
-  def public_path, do: Path.join([@path, "versions", "current", "public"])
+  def repo_path, do: Path.join([@path, "versions", "current"])
+  def content_path, do: Path.join([repo_path(), "content"])
+  def public_path, do: Path.join([repo_path(), "public"])
 
   defp initial_setup_sh, do: Application.app_dir(:victor, "priv/initial-setup.sh")
   defp deploy_sh, do: Application.app_dir(:victor, "priv/deploy.sh")

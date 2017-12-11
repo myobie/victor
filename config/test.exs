@@ -6,10 +6,14 @@ config :victor, VictorWeb.Endpoint,
 
 config :logger, level: :warn
 
-config :victor, Victor.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("USER"),
-  password: "",
-  database: "victor_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+config :victor, :hugo,
+  path: Path.expand("./test/support/repo/")
+
+config :victor, :open_id_connect,
+  authorize_url: "http://example.com/authorize",
+  redirect_uri: "http://example.com/app/auth/callback",
+  public_key: ""
+
+config :victor, :deploy_notification_auth,
+  username: "dev",
+  password: "pa55w0rd"

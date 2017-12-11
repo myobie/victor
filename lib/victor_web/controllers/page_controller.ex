@@ -4,6 +4,6 @@ defmodule VictorWeb.PageController do
   def not_found(conn, _params) do
     conn
     |> put_status(404)
-    |> text("not found")
+    |> html("not found")
   end
 end
