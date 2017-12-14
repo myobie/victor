@@ -20,20 +20,24 @@ defmodule VictorWeb.AuthController do
   def signin(conn, _params) do
     state = SecureRandom.hex
     nonce = SecureRandom.hex
-    query = URI.encode_query(%{
-      provider: :microsoft,
-      state: state,
-      nonce: nonce,
-      response_type: :id_token,
-      client_id: :victor,
-      redirect_uri: Victor.Auth.redirect_uri(),
-      scope: @scope,
-      claims: @claims
-    })
-    uri = Victor.Auth.authorize_url()
-          |> URI.parse()
-          |> Map.put(:query, query)
-          |> to_string()
+    query =
+      %{
+        state: state,
+        nonce: nonce,
+        response_type: :id_token,
+        client_id: Victor.Auth.client_id(),
+        redirect_uri: Victor.Auth.redirect_uri(),
+        scope: @scope,
+        claims: @claims
+      }
+      |> Map.merge(Victor.Auth.authorize_params())
+      |> URI.encode_query()
+
+    uri =
+      Victor.Auth.authorize_url()
+      |> URI.parse()
+      |> Map.put(:query, query)
+      |> to_string()
 
     conn
     |> put_session("state", state)

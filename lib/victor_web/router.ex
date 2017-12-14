@@ -14,18 +14,14 @@ defmodule VictorWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :authenticated_feature do
+  pipeline :feature do
     plug :accepts, ["html", "json"]
     plug :fetch_session
+    plug :fetch_flash
     plug :put_secure_browser_headers
-    plug :authenticate
   end
 
-  pipeline :authenticated_browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :put_secure_browser_headers
-    plug :authenticate
+  pipeline :hugo do
     plug :append_index
 
     # server all static files that are compiled by hugo at the root
@@ -35,9 +31,9 @@ defmodule VictorWeb.Router do
       gzip: false
   end
 
-  # pipeline :api do
-  #   plug :accepts, ["json"]
-  # end
+  pipeline :authenticated do
+    plug :authenticate
+  end
 
   def authenticate(conn, _) do
     if authenticated?(conn) do
@@ -111,19 +107,21 @@ defmodule VictorWeb.Router do
   end
 
   scope "/app/editor", VictorWeb do
-    pipe_through :browser
+    pipe_through :feature
+    pipe_through :authenticated
 
     get "/", EditorController, :show
     post "/", EditorController, :update
   end
 
   scope "/", VictorWeb do
-    case Application.fetch_env(:victor, :requires_authentication) do
-      {:ok, true} ->
-        pipe_through(:authenticated_browser)
-      :error ->
-        pipe_through(:browser)
+    pipe_through :browser
+
+    if match?({:ok, true}, Application.fetch_env(:victor, :requires_authentication)) do
+      pipe_through :authenticated
     end
+
+    pipe_through :hugo
 
     match :*, "/*anything", PageController, :not_found
   end
