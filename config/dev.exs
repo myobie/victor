@@ -22,6 +22,16 @@ config :logger, :console, format: "[$level] $message\n"
 
 config :phoenix, :stacktrace_depth, 20
 
+config :victor, :hugo,
+  url: "http://user:pass@git.example.com/example.git",
+  path: Path.expand("./hugo-dev-site/")
+
+config :victor, :open_id_connect,
+  authorize_url: "http://auth.example.com/authorize",
+  redirect_uri: "http://example.com/app/auth/callback",
+  public_key: "" # TODO: instructions for generating keys
+  # token_verifier: {Victor.Verifier, :valid?} # The file lib/victor/token_verifier.ex is git ignored for convenience
+
 config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"
