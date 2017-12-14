@@ -1,11 +1,6 @@
-<div class="editor">
-  <div class="files-list">
-    <ul>
-      <%= for section <- @sections do %>
-        <%= render "_section.html", section: section %>
-      <% end %>
-    </ul>
-  </div>
-  <div class="file-editor">
-  </div>
+<div id="editor">
 </div>
+
+<script>
+  window.bootstrapContent = <%= json_for_javascript(%{sections: @sections}) %>
+</script>

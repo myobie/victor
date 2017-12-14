@@ -1,4 +1,5 @@
 defmodule Victor.Editor.Content do
+  @derive {Poison.Encoder, except: [:path, :error]}
   defstruct id: nil, path: nil, body: "", top_matter: %{}, error: nil
 
   require Logger

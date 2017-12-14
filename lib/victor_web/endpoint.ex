@@ -5,7 +5,7 @@ defmodule VictorWeb.Endpoint do
 
   # NOTE: Moved our app assets to a different path so they don't conflict with hugo's compiled files
   plug Plug.Static,
-    at: "/phoenix-app-assets", from: :victor, gzip: false,
+    at: "/app/assets", from: :victor, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the

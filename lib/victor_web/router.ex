@@ -110,7 +110,7 @@ defmodule VictorWeb.Router do
     pipe_through :feature
     pipe_through :authenticated
 
-    get "/", EditorController, :show
+    get "/*anything", EditorController, :show
     post "/", EditorController, :update
   end
 

@@ -1,6 +1,7 @@
 defmodule Victor.Editor.Section do
   alias Victor.Editor.Content
 
+  @derive {Poison.Encoder, except: [:path, :errors]}
   defstruct id: nil, path: nil, index: %Content{}, subsections: [], pages: [], errors: []
 
   require Logger
@@ -31,22 +32,30 @@ defmodule Victor.Editor.Section do
   def scan(path) do
     Path.join(path, "*")
     |> Path.wildcard()
-    |> Enum.reduce(%{sections: [], pages: [], errors: []}, &process_path/2)
+    |> process_paths(%{sections: [], pages: [], errors: []})
   end
 
-  defp process_path(path, acc) do
+  defp process_paths([], %{sections: sections, pages: pages, errors: errors}) do
+    %{
+      sections: Enum.reverse(sections),
+      pages: Enum.reverse(pages),
+      errors: Enum.reverse(errors)
+    }
+  end
+
+  defp process_paths([path | paths], acc) do
     cond do
-      get_id(path) == "_index" ->
-        acc
+      get_id(path) == "_index.md" ->
+        process_paths(paths, acc)
       File.dir?(path) ->
         section = from(path)
-        %{acc | sections: [section | acc.sections]}
+        process_paths(paths, %{acc | sections: [section | acc.sections]})
       File.exists?(path) ->
         page = Content.from(path)
-        %{acc | pages: [page | acc.pages]}
+        process_paths(paths, %{acc | pages: [page | acc.pages]})
       true ->
         Logger.debug "File not found: #{path}"
-        %{acc | errors: [{path, :not_found} | acc.errors]}
+        process_paths(paths, %{acc | errors: [{path, :not_found} | acc.errors]})
     end
   end
 end

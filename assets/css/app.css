@@ -1,1 +1,145 @@
 /* This file is for your main application css. */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  font-family: -apple-system, BlinkMacSystemFont,
+               'avenir next', avenir,
+               'helvetica neue', helvetica,
+               ubuntu,
+               roboto, noto,
+               'segoe ui', arial,
+               sans-serif;
+}
+
+a {
+  color: var(--navy-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#editor {
+  height: 100vh;
+  width: 100vw;
+
+  display: -ms-grid;
+  display: grid;
+
+  -ms-grid-columns: var(--sidebar-width) auto;
+  -ms-grid-rows: var(--topbar-height) auto;
+  grid-template-columns: var(--sidebar-width) auto;
+  grid-template-rows: var(--topbar-height) auto;
+
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  grid-template-areas: "top top"
+                       "left right";
+}
+
+.topbar {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 1;
+  grid-area: top;
+  width: 100vw; /* IE11 doesn't stretch this to full width without us setting the width here */
+  background-color: var(--navy-color);
+  color: var(--white-color);
+}
+
+.topbar > header {
+  width: var(--sidebar-width);
+}
+
+.sidebar {
+  -ms-grid-column: 1;
+  -ms-grid-row: 2;
+  grid-area: left;
+  display: block;
+  overflow-y: auto;
+  height: calc(100vh - var(--topbar-height));
+  border-right: solid 1px var(--silver-color);
+}
+
+.sidebar .link:focus {
+  outline: none;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 8px 12px;
+  border-bottom: solid 1px var(--silver-color);
+}
+
+.sidebar li a:hover {
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar li.selected > a {
+  background-color: var(--yellow-color);
+  color: var(--black-color);
+}
+
+.sidebar .section-title,
+.sidebar .page-title {
+  display: block;
+  font-size: 16px;
+}
+
+.sidebar .section-id,
+.sidebar .page-id {
+  display: block;
+  font-size: 13px;
+}
+
+.sidebar ul ul li a {
+  padding-left: 2em;
+}
+
+.sidebar ul ul ul li a {
+  padding-left: 4em;
+}
+
+.single {
+  -ms-grid-column: 2;
+  -ms-grid-row: 2;
+  grid-area: right;
+  overflow-y: auto;
+  height: calc(100vh - var(--topbar-height));
+}
+
+.controls {
+  max-width: 40em;
+  margin: 30px auto;
+}
+
+ul.topmatter {
+  list-style-type: none;
+  margin: 0 0 30px;
+  padding: 0;
+}
+
+.topmatter-field input {
+  font-size: 16px;
+  width: 70%;
+}
+
+.edit textarea {
+  width: 100%;
+  font-size: 18px;
+  line-height: 1.5;
+  border: none;
+  height: 10em;
+  outline: none;
+}
