@@ -1,3 +1,4 @@
+/* global fetch */
 // import socket from "./socket"
 
 import raw from 'choo/html/raw'
@@ -279,6 +280,34 @@ function store (state, emitter) {
 
   emitter.on('contentUpdated', ({ path, value }) => {
     state.edits[path] = value
+  })
+
+  emitter.on('publish', () => {
+    emitter.emit('publishing')
+
+    fetch('/app/editor', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({ edits: state.edits }),
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(json => {
+      console.debug({ response: json })
+      emitter.emit('published')
+    })
+    .catch(error => {
+      console.error(error)
+      emitter.emit('publishFailed')
+    })
+  })
+
+  emitter.on('published', () => {
+    state.edits = {}
+    emitter.emit('render')
   })
 
   if (window.bootstrapContent && window.bootstrapContent.sections) {
