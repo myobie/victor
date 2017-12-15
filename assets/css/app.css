@@ -41,6 +41,12 @@ a:hover {
                        "left right";
 }
 
+#editor h2 {
+  margin: 30px;
+  font-size: 22px;
+  font-weight: normal;
+}
+
 .topbar {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -51,8 +57,24 @@ a:hover {
   color: var(--white-color);
 }
 
-.topbar > header {
-  width: var(--sidebar-width);
+.topbar nav {
+  width: 100%;
+  color: var(--white-color);
+}
+
+.topbar nav a {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 8px;
+  color: var(--white-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.topbar nav a:hover {
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .sidebar {
@@ -142,4 +164,27 @@ ul.topmatter {
   border: none;
   height: 10em;
   outline: none;
+}
+
+.edits-list {
+  list-style-type: none;
+  margin: 30px;
+  padding: 0;
+}
+
+.edits-item {
+  margin: 0;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--silver-color);
+}
+
+.edits-item-path {
+  display: block;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.edits-item-value {
+  display: block;
+  font-size: 13px;
 }

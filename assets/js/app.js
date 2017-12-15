@@ -9,51 +9,84 @@ const app = choo()
 app.use(devtools())
 app.use(store)
 app.route('/app/editor', (state, emit) => {
-  state.selectedContentPath = null
-  state.selectedContent = null
+  deselect(state)
   return mainView(state, emit)
 })
 app.route('/app/editor/edit/*', (state, emit) => {
-  const selectedContent = findByPath(state, state.params.wildcard)
-  if (selectedContent) {
-    state.selectedContentPath = selectedContent.path
-    if (selectedContent.index) {
-      state.selectedContent = selectedContent.index
-    } else {
-      state.selectedContent = selectedContent
-    }
-  }
-  setTimeout(() => textareaResize(), 10)
+  select(state, findByPath(state, state.params.wildcard))
+  setTimeout(() => textareaResize(), 10) // HACK
   return mainView(state, emit)
 })
+app.route('/app/editor/review', (state, emit) => {
+  deselect(state)
+  return reviewView(state, emit)
+})
 app.mount('#editor')
+
+function select (state, content) {
+  if (content) {
+    state.selectedContentPath = content.path
+    state.selectedContent = content
+  } else {
+    state.selectedContentPath = null
+    state.selectedContent = null
+  }
+}
+function deselect (state) { select(state, null) }
 
 function url (...paths) {
   return ['/app/editor'].concat(paths).join('/')
 }
 
-function getTitle (content) {
+function getTopMatter (content) {
   if (content.index) {
-    return getTitle(content.index)
+    return getTopMatter(content.index)
   } else {
-    if (content.top_matter && content.top_matter.title) {
-      return content.top_matter.title
-    } else {
-      return '[No title]'
-    }
+    return content.top_matter
+  }
+}
+
+function getTitle (content) {
+  const topMatter = getTopMatter(content)
+  if (topMatter && topMatter.title) {
+    return topMatter.title
+  } else {
+    return '[No title]'
+  }
+}
+
+function getBody (content) {
+  if (content.index) {
+    return getBody(content.index)
+  } else {
+    return content.body || ''
   }
 }
 
 function mainView (state, emit) {
   return html`
     <div id="editor">
-      <div class="topbar"></div>
+      <div class="topbar">${editorTopbarView(state, emit)}</div>
       <div class="sidebar">
         ${sectionList(state, state.content.sections, emit)}
       </div>
       ${singleView(state, emit)}
     </div>
   `
+}
+
+function editorTopbarView (state, emit) {
+  return html`
+    <nav>
+      <a href="#" onclick=${addClick}>Add new section or page</a>
+      <a href=${url('review')}>Review changes</a>
+    </nav>
+  `
+
+  function addClick (e) {
+    e.preventDefault()
+    emit('addContent')
+  }
 }
 
 function sectionList (state, sections, emit) {
@@ -112,6 +145,7 @@ function singleView (state, emit) {
   if (state.selectedContent) {
     return html`
       <div class="single">
+        <h2>${state.selectedContent.path}</h2>
         <div class="controls">
           ${topMatterView(state, state.selectedContent, emit)}
           ${editView(state, state.selectedContent, emit)}
@@ -126,11 +160,21 @@ function singleView (state, emit) {
 }
 
 function topMatterView (state, content, emit) {
-  return html`
-    <ul class="topmatter">
-      ${Object.entries(content.top_matter).map(([key, value]) => topMatterItemView(state, key, value, emit))}
-    </ul>
-  `
+  const topMatter = getTopMatter(content)
+
+  if (topMatter) {
+    return html`
+      <ul class="topmatter">
+        ${Object.entries(topMatter).map(([key, value]) => topMatterItemView(state, key, value, emit))}
+      </ul>
+    `
+  } else {
+    return html`
+      <ul class="topmatter">
+        ${topMatterItemView(state, 'title', '', emit)}
+      </ul>
+    `
+  }
 }
 
 function topMatterItemView (state, key, value, emit) {
@@ -158,10 +202,69 @@ function textareaResize (e) {
 }
 
 function editView (state, content, emit) {
+  let body
+  const edits = state.edits[content.path]
+
+  if (edits) {
+    body = edits.value
+  } else {
+    body = getBody(content)
+  }
+
   return html`
     <div class="edit">
-      <textarea name="body" oninput=${textareaResize}>${raw(content.body)}</textarea>
+      <textarea name="body" oninput=${oninput}>${raw(body)}</textarea>
     </div>
+  `
+
+  function oninput (e) {
+    emit('contentUpdated', { path: content.path, value: e.target.value })
+    textareaResize(e)
+  }
+}
+
+function reviewView (state, emit) {
+  return html`
+    <div id="editor">
+      <div class="topbar">${reviewTopbarView(state, emit)}</div>
+      <div class="sidebar">
+        ${sectionList(state, state.content.sections, emit)}
+      </div>
+      ${editsListView(state, state.edits, emit)}
+    </div>
+  `
+}
+
+function reviewTopbarView (state, emit) {
+  return html`
+    <nav>
+      <a href="#" onclick=${onclick}>Publish all edits</a>
+    </nav>
+  `
+
+  function onclick (e) {
+    e.preventDefault()
+    emit('publish')
+  }
+}
+
+function editsListView (state, edits, emit) {
+  return html`
+    <div class="edits">
+      <h2>Files changed</h2>
+      <ul class="edits-list">
+        ${Object.entries(edits).map(([path, value]) => editsListItemView(state, path, value, emit))}
+      </ul>
+    </div>
+  `
+}
+
+function editsListItemView (state, path, value, emit) {
+  return html`
+    <li class="edits-item">
+      <span class="edits-item-path">Updated ${path}</span>
+      <span class="edits-item-value">A diff will appear here in the future...</span>
+    </li>
   `
 }
 
@@ -173,6 +276,10 @@ function store (state, emitter) {
   // Edits are stored by the path index of the edited content
   state.edits = {}
   state.selectedContentPath = null
+
+  emitter.on('contentUpdated', ({ path, value }) => {
+    state.edits[path] = value
+  })
 
   if (window.bootstrapContent && window.bootstrapContent.sections) {
     state.content.sections = window.bootstrapContent.sections
