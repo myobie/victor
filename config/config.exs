@@ -26,8 +26,11 @@ config :logger, :console,
 # keep it locally. Place something like this in one of the secret files:
 #
 #   config :victor, :hugo,
-#     url: "https://github.com/myobie/example-hugo-website.git", # the public url to the git repository (include any credentials as basic auth directly in the url (https://me:pass@example.com/...)
-#     path: "/tmp/example-hugo-website" # A directory locally to store the hugo repo, the builds for each deploy, and any other working files
+#     path: "/tmp/hugo"
+#
+#   config :victor, :git,
+#     adapter: Victor.VSO,
+#     url: "https://github.com/myobie/example-hugo-website.git"
 
 # Victor supports authentication by delegating to an OpenID Connect
 # server. You can run your own by running :authority
