@@ -22,15 +22,16 @@ defmodule Victor.EditorTest do
     {:ok, sections} = Editor.content()
     intro = Section.find(sections, "01-introduction")
 
-    assert not is_nil intro
+    assert not is_nil(intro)
     assert intro.index.body =~ ~r{^Lorem}
     assert Section.title(intro) == "Introduction"
-    assert not is_nil Content.get(intro.index, "figure")
-    assert is_nil Content.get(intro.index, "categories")
+    assert not is_nil(Content.get(intro.index, "figure"))
+    assert is_nil(Content.get(intro.index, "categories"))
   end
 
   test "invalid yaml is fine" do
     {:ok, sections} = Editor.content()
+
     first_part_of_second_section =
       sections
       |> Section.find("02-second")

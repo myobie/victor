@@ -6,8 +6,7 @@ config :victor, VictorWeb.Endpoint,
 
 config :logger, level: :warn
 
-config :victor, :hugo,
-  path: Path.expand("./test/support/repo/")
+config :victor, :hugo, path: Path.expand("./test/support/repo/")
 
 config :victor, :open_id_connect,
   authorize_url: "http://example.com/authorize",

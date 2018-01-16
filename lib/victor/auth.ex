@@ -4,7 +4,11 @@ defmodule Victor.Auth do
   @authorize_params Keyword.get(@open_id_connect_config, :authorize_params, %{})
   @client_id Keyword.get(@open_id_connect_config, :client_id)
   @public_key Keyword.get(@open_id_connect_config, :public_key)
-  @token_verifier Keyword.get(@open_id_connect_config, :token_verifier, {Victor.Auth, :empty_verifier})
+  @token_verifier Keyword.get(
+                    @open_id_connect_config,
+                    :token_verifier,
+                    {Victor.Auth, :empty_verifier}
+                  )
   @default_callback_path URI.parse("/app/auth/callback")
 
   def config, do: @open_id_connect_config
@@ -20,7 +24,9 @@ defmodule Victor.Auth do
         URI.parse(VictorWeb.Endpoint.url())
         |> URI.merge(@default_callback_path)
         |> to_string()
-      uri -> uri
+
+      uri ->
+        uri
     end
   end
 

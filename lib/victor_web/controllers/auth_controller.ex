@@ -10,6 +10,7 @@ defmodule VictorWeb.AuthController do
         conn
         |> put_session("id_token", id_token)
         |> redirect(to: "/")
+
       _ ->
         conn
         |> put_status(401)
@@ -18,8 +19,9 @@ defmodule VictorWeb.AuthController do
   end
 
   def signin(conn, _params) do
-    state = SecureRandom.hex
-    nonce = SecureRandom.hex
+    state = SecureRandom.hex()
+    nonce = SecureRandom.hex()
+
     query =
       %{
         state: state,

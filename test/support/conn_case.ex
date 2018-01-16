@@ -26,9 +26,7 @@ defmodule VictorWeb.ConnCase do
     end
   end
 
-
   setup _ do
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

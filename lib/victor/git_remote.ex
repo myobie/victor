@@ -1,7 +1,7 @@
 defmodule Victor.GitRemote do
-  @type sha :: String.t
-  @type file :: %{type: String.t, content: binary}
-  @type files :: %{optional(String.t) => file}
+  @type sha :: String.t()
+  @type file :: %{type: String.t(), content: binary}
+  @type files :: %{optional(String.t()) => file}
 
   @callback commit(files, sha) :: {:ok, sha} | {:error, atom}
 

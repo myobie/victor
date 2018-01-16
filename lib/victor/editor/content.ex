@@ -5,27 +5,26 @@ defmodule Victor.Editor.Content do
   require Logger
   import Victor.Editor.Helpers
 
-  def get(%__MODULE__{top_matter: tm}, field),
-    do: Map.get(tm, field)
+  def get(%__MODULE__{top_matter: tm}, field), do: Map.get(tm, field)
 
-  def fetch(%__MODULE__{top_matter: tm}, field),
-    do: Map.fetch(tm, field)
+  def fetch(%__MODULE__{top_matter: tm}, field), do: Map.fetch(tm, field)
 
-  def title(%__MODULE__{} = content),
-    do: get(content, "title")
+  def title(%__MODULE__{} = content), do: get(content, "title")
 
   def from(path) do
     case File.read(path) do
       {:ok, data} ->
         {body, top} = extract_top_matter(data)
+
         %__MODULE__{
           id: get_id(path),
           path: path,
           body: body,
           top_matter: top
         }
+
       error ->
-        _ = Logger.debug "Error reading file at #{path} #{inspect error}"
+        _ = Logger.debug("Error reading file at #{path} #{inspect(error)}")
         %__MODULE__{error: error}
     end
   end
@@ -39,6 +38,7 @@ defmodule Victor.Editor.Content do
         text
         |> String.slice(yaml_begin, yaml_length)
         |> extract_yaml(text, body_begin..-1)
+
       _ ->
         {text, %{}}
     end
@@ -51,7 +51,7 @@ defmodule Victor.Editor.Content do
       {body, tm}
     catch
       {:yamerl_exception, _} ->
-      {original, %{}}
+        {original, %{}}
     end
   end
 end

@@ -4,14 +4,11 @@ defmodule Victor.Hugo do
   @path Keyword.get(@config, :path)
   @rev_parse_args ~w(rev-parse --verify HEAD)
 
-  def repo_path(version \\ "current"),
-    do: Path.join([@path, "versions", version])
+  def repo_path(version \\ "current"), do: Path.join([@path, "versions", version])
 
-  def content_path(version \\ "current"),
-    do: Path.join([repo_path(version), "content"])
+  def content_path(version \\ "current"), do: Path.join([repo_path(version), "content"])
 
-  def public_path(version \\ "current"),
-    do: Path.join([repo_path(version), "public"])
+  def public_path(version \\ "current"), do: Path.join([repo_path(version), "public"])
 
   defp initial_setup_sh, do: Application.app_dir(:victor, "priv/initial-setup.sh")
   defp deploy_sh, do: Application.app_dir(:victor, "priv/deploy.sh")

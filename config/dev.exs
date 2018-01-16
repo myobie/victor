@@ -6,8 +6,14 @@ config :victor, VictorWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   static_url: [path: "/app/assets"],
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-                    cd: Path.expand("../assets", __DIR__)]]
+  watchers: [
+    node: [
+      "node_modules/brunch/bin/brunch",
+      "watch",
+      "--stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
+  ]
 
 config :victor, VictorWeb.Endpoint,
   live_reload: [
@@ -30,8 +36,10 @@ config :victor, :hugo,
 config :victor, :open_id_connect,
   authorize_url: "http://auth.example.com/authorize",
   redirect_uri: "http://example.com/app/auth/callback",
-  public_key: "" # TODO: instructions for generating keys
-  # token_verifier: {Victor.Verifier, :valid?} # The file lib/victor/token_verifier.ex is git ignored for convenience
+  # TODO: instructions for generating keys
+  public_key: ""
+
+# token_verifier: {Victor.Verifier, :valid?} # The file lib/victor/token_verifier.ex is git ignored for convenience
 
 config :victor, :deploy_notification_auth,
   username: "dev",

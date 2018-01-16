@@ -4,19 +4,24 @@ defmodule Victor.GitRemote.VSO do
 
   def commit(files, rev) do
     _request = build_request(files, rev)
-    {:ok, "abc"} # fake commit response for now
+    # fake commit response for now
+    {:ok, "abc"}
   end
 
   defp build_request(files, rev) do
     %{
-      refUpdates: [%{
-        name: "refs/head/master",
-        oldObjectId: rev
-      }],
-      commits: [%{
-        comment: "Updated the content",
-        changes: build_changes(files)
-      }]
+      refUpdates: [
+        %{
+          name: "refs/head/master",
+          oldObjectId: rev
+        }
+      ],
+      commits: [
+        %{
+          comment: "Updated the content",
+          changes: build_changes(files)
+        }
+      ]
     }
   end
 
