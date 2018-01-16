@@ -2,31 +2,32 @@ defmodule Victor.EditorTest do
   use ExUnit.Case, async: true
 
   alias Victor.Editor
-  alias Victor.Editor.{Content, Section}
+  alias Victor.Editor.{Page, Section}
 
   test "content in fake hugo site should be parsable" do
     assert {:ok, _} = Editor.content()
   end
 
-  test "sections and subsections parse correctly" do
+  test "sections and sections parse correctly" do
     {:ok, sections} = Editor.content()
 
     assert [sec1, sec2, sec3] = sections
 
-    assert length(sec1.subsections) == 0
-    assert length(sec2.subsections) == 2
-    assert length(sec3.subsections) == 1
+    assert length(sec1.sections) == 1
+    assert length(sec2.sections) == 2
+    assert length(sec3.sections) == 0
   end
 
   test "should parse the introduction correctly" do
     {:ok, sections} = Editor.content()
     intro = Section.find(sections, "01-introduction")
+    index = Section.index(intro)
 
     assert not is_nil(intro)
-    assert intro.index.body =~ ~r{^Lorem}
-    assert Section.title(intro) == "Introduction"
-    assert not is_nil(Content.get(intro.index, "figure"))
-    assert is_nil(Content.get(intro.index, "categories"))
+    assert index.body =~ ~r{^Lorem}
+    assert Page.title(index) == "Introduction"
+    assert not is_nil(Page.get(index, "figure"))
+    assert is_nil(Page.get(index, "categories"))
   end
 
   test "invalid yaml is fine" do

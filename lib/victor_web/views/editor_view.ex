@@ -3,9 +3,7 @@ defmodule VictorWeb.EditorView do
 
   alias Victor.Editor
 
-  def title(%Editor.Section{} = section), do: Editor.Section.title(section)
-
-  def title(%Editor.Content{} = content), do: Editor.Content.title(content)
+  def title(page), do: Editor.Page.title(page)
 
   def render("show.json", %{sections: sections}) do
     %{sections: sections}

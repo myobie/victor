@@ -1,16 +1,29 @@
-defmodule Victor.Editor.Content do
+defmodule Victor.Editor.Page do
   @derive {Poison.Encoder, except: [:path, :error]}
   defstruct id: nil, path: nil, body: "", top_matter: %{}, error: nil
 
   require Logger
   import Victor.Editor.Helpers
 
+  @type fields :: %{optional(String.t()) => String.t()}
+  @type t :: %__MODULE__{
+          id: String.t(),
+          path: Path.t(),
+          body: String.t(),
+          top_matter: fields,
+          error: term
+        }
+
+  @spec get(t, String.t()) :: String.t() | nil
   def get(%__MODULE__{top_matter: tm}, field), do: Map.get(tm, field)
 
+  @spec fetch(t, String.t()) :: {:ok, String.t()} | :error
   def fetch(%__MODULE__{top_matter: tm}, field), do: Map.fetch(tm, field)
 
+  @spec title(t) :: String.t() | nil
   def title(%__MODULE__{} = content), do: get(content, "title")
 
+  @spec from(Path.t()) :: t
   def from(path) do
     case File.read(path) do
       {:ok, data} ->
@@ -30,8 +43,8 @@ defmodule Victor.Editor.Content do
   end
 
   @top_regex ~r{^---\n(.+)---\n\n}s
-  # [_, match] = Regex.run(@top_regex, body)
 
+  @spec extract_top_matter(String.t()) :: {String.t(), fields}
   defp extract_top_matter(text) do
     case Regex.run(@top_regex, text, return: :index) do
       [{0, body_begin}, {yaml_begin, yaml_length}] ->
@@ -44,6 +57,7 @@ defmodule Victor.Editor.Content do
     end
   end
 
+  @spec extract_yaml(String.t(), String.t(), Range.t()) :: {String.t(), fields}
   defp extract_yaml(yaml, original, range) do
     try do
       tm = YamlElixir.read_from_string(yaml)

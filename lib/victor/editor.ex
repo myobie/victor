@@ -2,6 +2,7 @@ defmodule Victor.Editor do
   alias Victor.Hugo
   alias Victor.Editor.Section
 
+  @spec content :: {:ok, list(Section.t())} | {:error, list(term)}
   def content do
     case Section.scan(Hugo.content_path()) do
       %{errors: [], sections: sections, pages: []} ->
