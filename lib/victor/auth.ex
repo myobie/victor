@@ -18,6 +18,7 @@ defmodule Victor.Auth do
   def public_key, do: @public_key
   def empty_verifier(_), do: true
 
+  @spec redirect_uri :: String.t()
   def redirect_uri do
     case Keyword.get(@open_id_connect_config, :redirect_uri) do
       nil ->
@@ -30,6 +31,7 @@ defmodule Victor.Auth do
     end
   end
 
+  @spec valid?(map) :: boolean
   def valid?(fields) do
     {m, f} = @token_verifier
     apply(m, f, [fields])

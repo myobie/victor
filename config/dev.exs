@@ -29,9 +29,7 @@ config :logger, :console, format: "[$level] $message\n"
 
 config :phoenix, :stacktrace_depth, 20
 
-config :victor, :hugo,
-  url: "http://user:pass@git.example.com/example.git",
-  path: Path.expand("./hugo-dev-site/")
+config :victor, :hugo, path: Path.expand("./hugo-dev-site/")
 
 config :victor, :open_id_connect,
   authorize_url: "http://auth.example.com/authorize",
