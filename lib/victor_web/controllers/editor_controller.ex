@@ -12,7 +12,8 @@ defmodule VictorWeb.EditorController do
   end
 
   def update(conn, %{"edits" => edits}) do
-    with {:ok, _commit_sha} <- Victor.GitRemote.commit(edits) do
+    with {:ok, rev} <- Victor.Hugo.current_rev(),
+         {:ok, _commit_sha} <- Victor.GitRemote.adapter.commit(edits, rev) do
       json conn, %{woo: "hoo"}
     end
   end

@@ -54,7 +54,7 @@ defmodule Victor.Editor.Section do
         page = Content.from(path)
         process_paths(paths, %{acc | pages: [page | acc.pages]})
       true ->
-        Logger.debug "File not found: #{path}"
+        _ = Logger.debug "File not found: #{path}"
         process_paths(paths, %{acc | errors: [{path, :not_found} | acc.errors]})
     end
   end

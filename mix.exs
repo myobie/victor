@@ -9,7 +9,21 @@ defmodule Victor.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
-      dialyzer: [plt_add_deps: :transitive],
+      dialyzer: [
+        plt_add_deps: :transitive,
+        flags: [
+          :unmatched_returns,
+          :error_handling,
+          :race_conditions,
+          :underspecs,
+          :no_behaviours,
+          :no_fail_call,
+          :no_missing_calls,
+          :no_return,
+          :no_undefined_callbacks,
+          :no_unused
+        ]
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -55,6 +69,7 @@ defmodule Victor.Mixfile do
 
   defp aliases do
     [
+      lint: ["compile", "dialyzer"]
     ]
   end
 end

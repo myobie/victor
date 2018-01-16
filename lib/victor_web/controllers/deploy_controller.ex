@@ -9,7 +9,7 @@ defmodule VictorWeb.DeployController do
   @encoded_auth Base.encode64("#{@username}:#{@password}")
 
   def deploy(conn, _params) do
-    Task.async(Victor.Hugo, :deploy, [])
+    _ = Task.async(Victor.Hugo, :deploy, [])
     text conn, "thanks"
   end
 

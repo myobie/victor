@@ -25,7 +25,7 @@ defmodule Victor.Editor.Content do
           top_matter: top
         }
       error ->
-        Logger.debug "Error reading file at #{path} #{inspect error}"
+        _ = Logger.debug "Error reading file at #{path} #{inspect error}"
         %__MODULE__{error: error}
     end
   end

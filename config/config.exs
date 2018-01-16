@@ -29,7 +29,7 @@ config :logger, :console,
 #     path: "/tmp/hugo"
 #
 #   config :victor, :git,
-#     adapter: Victor.VSO,
+#     adapter: :vso,
 #     url: "https://github.com/myobie/example-hugo-website.git"
 
 # Victor supports authentication by delegating to an OpenID Connect
