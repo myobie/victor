@@ -23,12 +23,16 @@ config :logger, :console,
 # Victor needs to know where to get the hugo site from and where to
 # keep it locally. Place something like this in one of the secret files:
 #
-#   config :victor, :hugo,
-#     path: "/tmp/hugo"
-#
-#   config :victor, :git,
-#     adapter: :vso,
-#     url: "https://github.com/myobie/example-hugo-website.git"
+#     config :victor, :websites, [
+#       %Victor.Website{
+#         host: "example.com",
+#         git_repo: %Victor.GitRepo{path: Path.expand("/tmp/victor/")},
+#         git_remote: %Victor.GitRemote{
+#           adapter: :github,
+#           url: "https://github.com/user/repo.git"
+#         }
+#       }
+#     ]
 
 # Victor supports authentication by delegating to an OpenID Connect
 # server. You can run your own by running :authority
@@ -37,10 +41,19 @@ config :logger, :console,
 #
 # Place something like this in one of the secret files:
 #
-#   config :victor, :open_id_connect,
-#     authorize_url: "https://auth.example.com/authorize", # the URL of the authorization endpiont of your OpenID Connect provider
-#     redirect_uri: "https://blog.example.com/app/auth/callback", # the URL to victor (the path is always /app/auth/callback)
-#     public_key: "{...jwk json here...}" # victor uses public/private keys to verify the signature of JWTs sent from the OpenID Connect provider
+#     config :victor, :websites, [
+#       %Victor.Website{
+#         # ...
+#         authentication: %Victor.AuthenticationConfig{
+#           authorize_url: "https://auth.example.com/authorize", # the URL of the authorization endpiont of your OpenID Connect provider
+#           redirect_uri: "https://blog.example.com/app/auth/callback", # the URL to victor (the path is always /app/auth/callback)
+#           public_key: "{...jwk json here...}", # victor uses public/private keys to verify the signature of JWTs sent from the OpenID Connect provider
+#           verifiers: [
+#             %Victor.AuthenticationConfig.Verifier{type: :everyone} # everyone means anyone who can successfully sign in at the authorize URL
+#           ]
+#         }
+#       }
+#     ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
