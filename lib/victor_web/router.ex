@@ -21,18 +21,6 @@ defmodule VictorWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
-  pipeline :hugo do
-    plug(:append_index)
-
-    # server all static files that are compiled by hugo at the root
-    plug(
-      Plug.Static,
-      at: "/",
-      from: Victor.Hugo.public_path(),
-      gzip: false
-    )
-  end
-
   pipeline :authenticated do
     plug(:authenticate)
   end
@@ -47,52 +35,7 @@ defmodule VictorWeb.Router do
     end
   end
 
-  @jwt_type ["PS256"]
-
-  defp authenticated?(conn) do
-    with id_token when not is_nil(id_token) <- get_session(conn, "id_token") do
-      case JOSE.JWT.verify_strict(Victor.Auth.public_key(), @jwt_type, id_token) do
-        {true, %{fields: fields}, _jws} ->
-          Victor.Auth.valid?(fields)
-
-        _ ->
-          false
-      end
-    else
-      _ -> false
-    end
-  end
-
-  def append_index(conn, _) do
-    case conn do
-      %{method: "GET", request_path: path} ->
-        cond do
-          hugo_dir?(path) -> append_index_dot_html(conn)
-          true -> conn
-        end
-
-      _ ->
-        conn
-    end
-  end
-
-  defp append_index_dot_html(%Plug.Conn{} = conn) do
-    %{
-      conn
-      | path_info: append_index_dot_html({:path_info, conn.path_info}),
-        script_name: append_index_dot_html({:script_name, conn.script_name}),
-        request_path: append_index_dot_html({:request_path, conn.request_path})
-    }
-  end
-
-  defp append_index_dot_html({:path_info, path_info}), do: path_info ++ ["index.html"]
-
-  defp append_index_dot_html({:script_name, _script_name}), do: ["index.html"]
-
-  defp append_index_dot_html({:request_path, request_path}),
-    do: Path.join(request_path, "index.html")
-
-  defp hugo_dir?(path), do: Victor.Hugo.public_path() |> Path.join(path) |> File.dir?()
+  def authenticated?(_), do: false
 
   scope "/app", VictorWeb do
     pipe_through(:browser)
@@ -118,12 +61,6 @@ defmodule VictorWeb.Router do
 
   scope "/", VictorWeb do
     pipe_through(:browser)
-
-    if match?({:ok, true}, Application.fetch_env(:victor, :requires_authentication)) do
-      pipe_through(:authenticated)
-    end
-
-    pipe_through(:hugo)
 
     match(:*, "/*anything", PageController, :not_found)
   end

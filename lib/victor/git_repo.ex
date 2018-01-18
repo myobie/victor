@@ -1,0 +1,15 @@
+defmodule Victor.GitRepo do
+  defstruct path: nil
+
+  @type t :: %__MODULE__{path: Path.t()}
+  @type sha :: String.t()
+
+  @spec path(t, sha, [Path.t()]) :: Path.t()
+  def path(repo, version \\ "current", additional_segments \\ []), do: Path.join([repo.path, "versions", version] ++ additional_segments)
+
+  @spec content_path(t, sha) :: Path.t()
+  def content_path(repo, version \\ "current"), do: path(repo, version, ["content"])
+
+  @spec public_path(t, sha) :: Path.t()
+  def public_path(repo, version \\ "current"), do: path(repo, version, ["public"])
+end
