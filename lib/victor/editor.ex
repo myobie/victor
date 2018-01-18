@@ -1,10 +1,10 @@
 defmodule Victor.Editor do
-  alias Victor.Hugo
+  alias Victor.{GitRepo, Website}
   alias Victor.Editor.Section
 
-  @spec content :: {:ok, list(Section.t())} | {:error, list(term)}
-  def content do
-    case Section.scan(Hugo.content_path()) do
+  @spec content(Website.t()) :: {:ok, list(Section.t())} | {:error, list(term)}
+  def content(site) do
+    case Section.scan(GitRepo.content_path(site.git_repo)) do
       %{errors: [], sections: sections, pages: []} ->
         {:ok, sections}
 

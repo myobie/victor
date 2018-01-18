@@ -1,6 +1,6 @@
 defmodule Victor.Editor.Page do
   @derive {Poison.Encoder, except: [:path, :error]}
-  defstruct id: nil, path: nil, body: "", top_matter: %{}, error: nil
+  defstruct id: nil, path: nil, body: "", front_matter: %{}, error: nil
 
   require Logger
   import Victor.Editor.Helpers
@@ -10,15 +10,15 @@ defmodule Victor.Editor.Page do
           id: String.t(),
           path: Path.t(),
           body: String.t(),
-          top_matter: fields,
+          front_matter: fields,
           error: term
         }
 
   @spec get(t, String.t()) :: String.t() | nil
-  def get(%__MODULE__{top_matter: tm}, field), do: Map.get(tm, field)
+  def get(%__MODULE__{front_matter: tm}, field), do: Map.get(tm, field)
 
   @spec fetch(t, String.t()) :: {:ok, String.t()} | :error
-  def fetch(%__MODULE__{top_matter: tm}, field), do: Map.fetch(tm, field)
+  def fetch(%__MODULE__{front_matter: tm}, field), do: Map.fetch(tm, field)
 
   @spec title(t) :: String.t() | nil
   def title(%__MODULE__{} = content), do: get(content, "title")
@@ -27,13 +27,13 @@ defmodule Victor.Editor.Page do
   def from(path) do
     case File.read(path) do
       {:ok, data} ->
-        {body, top} = extract_top_matter(data)
+        {body, top} = extract_front_matter(data)
 
         %__MODULE__{
           id: get_id(path),
           path: path,
           body: body,
-          top_matter: top
+          front_matter: top
         }
 
       error ->
@@ -44,8 +44,8 @@ defmodule Victor.Editor.Page do
 
   @top_regex ~r{^---\n(.+)---\n\n}s
 
-  @spec extract_top_matter(String.t()) :: {String.t(), fields}
-  defp extract_top_matter(text) do
+  @spec extract_front_matter(String.t()) :: {String.t(), fields}
+  defp extract_front_matter(text) do
     case Regex.run(@top_regex, text, return: :index) do
       [{0, body_begin}, {yaml_begin, yaml_length}] ->
         text

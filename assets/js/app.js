@@ -39,18 +39,18 @@ function url (...paths) {
   return ['/app/editor'].concat(paths).join('/')
 }
 
-function getTopMatter (content) {
+function getFrontMatter (content) {
   if (content.index) {
-    return getTopMatter(content.index)
+    return getFrontMatter(content.index)
   } else {
-    return content.top_matter
+    return content.front_matter
   }
 }
 
 function getTitle (content) {
-  const topMatter = getTopMatter(content)
-  if (topMatter && topMatter.title) {
-    return topMatter.title
+  const frontMatter = getFrontMatter(content)
+  if (frontMatter && frontMatter.title) {
+    return frontMatter.title
   } else {
     return '[No title]'
   }
@@ -148,7 +148,7 @@ function singleView (state, emit) {
       <div class="single">
         <h2>${state.selectedContent.path}</h2>
         <div class="controls">
-          ${topMatterView(state, state.selectedContent, emit)}
+          ${frontMatterView(state, state.selectedContent, emit)}
           ${editView(state, state.selectedContent, emit)}
         </div>
       </div>
@@ -160,27 +160,27 @@ function singleView (state, emit) {
   }
 }
 
-function topMatterView (state, content, emit) {
-  const topMatter = getTopMatter(content)
+function frontMatterView (state, content, emit) {
+  const frontMatter = getFrontMatter(content)
 
-  if (topMatter) {
+  if (frontMatter) {
     return html`
-      <ul class="topmatter">
-        ${Object.entries(topMatter).map(([key, value]) => topMatterItemView(state, key, value, emit))}
+      <ul class="frontmatter">
+        ${Object.entries(frontMatter).map(([key, value]) => frontMatterItemView(state, key, value, emit))}
       </ul>
     `
   } else {
     return html`
-      <ul class="topmatter">
-        ${topMatterItemView(state, 'title', '', emit)}
+      <ul class="frontmatter">
+        ${frontMatterItemView(state, 'title', '', emit)}
       </ul>
     `
   }
 }
 
-function topMatterItemView (state, key, value, emit) {
+function frontMatterItemView (state, key, value, emit) {
   return html`
-    <li class="topmatter-field">
+    <li class="frontmatter-field">
       <label>
         ${key}:
         <input name=${key} value=${value} />

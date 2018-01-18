@@ -3,6 +3,10 @@ defmodule Victor.GitRemote do
   @type file :: %{type: String.t(), content: binary}
   @type files :: %{optional(String.t()) => file}
 
+  defstruct adapter: nil, url: nil
+
+  @type t :: %__MODULE__{adapter: adapter_types, url: String.t()}
+
   @callback commit(files, sha) :: {:ok, sha} | {:error, atom}
 
   @config Application.get_env(:victor, :git, [])

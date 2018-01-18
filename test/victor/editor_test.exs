@@ -38,7 +38,7 @@ defmodule Victor.EditorTest do
       |> Section.find("02-second")
       |> Section.page("01-first-part.md")
 
-    assert first_part_of_second_section.top_matter == %{}
+    assert first_part_of_second_section.front_matter == %{}
     assert first_part_of_second_section.body =~ ~r{^---\n}
   end
 end
