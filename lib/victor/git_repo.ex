@@ -7,7 +7,8 @@ defmodule Victor.GitRepo do
   @spec path(t) :: Path.t()
   @spec path(t, sha) :: Path.t()
   @spec path(t, sha, [Path.t()]) :: Path.t()
-  def path(repo, version \\ "current", additional_segments \\ []), do: Path.join([repo.path, "versions", version] ++ additional_segments)
+  def path(repo, version \\ "current", additional_segments \\ []),
+    do: Path.join([repo.path, "versions", version] ++ additional_segments)
 
   @spec content_path(t) :: Path.t()
   @spec content_path(t, sha) :: Path.t()
