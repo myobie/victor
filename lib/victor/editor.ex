@@ -4,7 +4,7 @@ defmodule Victor.Editor do
 
   @spec content(Website.t()) :: {:ok, list(Section.t())} | {:error, list(term)}
   def content(site) do
-    case Section.scan(GitRepo.content_path(site.git_repo)) do
+    case Section.scan(GitRepo.content_path(site.repo)) do
       %{errors: [], sections: sections, pages: []} ->
         {:ok, sections}
 

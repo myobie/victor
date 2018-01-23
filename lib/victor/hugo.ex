@@ -13,7 +13,7 @@ defmodule Victor.Hugo do
   def initial_setup(site) do
     case System.cmd(
            initial_setup_sh(),
-           [site.git_repo.path, Website.url(site)],
+           [site.repo.path, Website.url(site)],
            stderr_to_stdout: true
          ) do
       {output, 0} -> {:ok, output}
@@ -25,7 +25,7 @@ defmodule Victor.Hugo do
   def build(site, rev \\ "master") do
     case System.cmd(
            build_sh(),
-           [site.git_repo.path, rev, Website.url(site)],
+           [site.repo.path, rev, Website.url(site)],
            stderr_to_stdout: true
          ) do
       {output, 0} -> {:ok, output}
@@ -35,7 +35,7 @@ defmodule Victor.Hugo do
 
   @spec current_rev(Website.t()) :: command_result
   def current_rev(site) do
-    case System.cmd("git", @rev_parse_args, cd: GitRepo.path(site.git_repo)) do
+    case System.cmd("git", @rev_parse_args, cd: GitRepo.path(site.repo)) do
       {output, 0} -> {:ok, String.trim(output)}
       {output, _} -> {:error, output}
     end

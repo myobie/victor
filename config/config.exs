@@ -24,13 +24,10 @@ config :logger, :console,
 # keep it locally. Place something like this in one of the secret files:
 #
 #     config :victor, :websites, [
-#       %Victor.Website{
+#       %{
 #         host: "example.com",
-#         git_repo: %Victor.GitRepo{path: Path.expand("/tmp/victor/")},
-#         git_remote: %Victor.GitRemote{
-#           adapter: :github,
-#           url: "https://github.com/user/repo.git"
-#         }
+#         repo: Path.expand("/tmp/victor/"),
+#         remote: "https://github.com/user/repo.git"
 #       }
 #     ]
 
@@ -42,15 +39,13 @@ config :logger, :console,
 # Place something like this in one of the secret files:
 #
 #     config :victor, :websites, [
-#       %Victor.Website{
+#       %{
 #         # ...
-#         authentication: %Victor.AuthenticationConfig{
+#         authentication: %{
 #           authorize_url: "https://auth.example.com/authorize", # the URL of the authorization endpiont of your OpenID Connect provider
 #           redirect_uri: "https://blog.example.com/app/auth/callback", # the URL to victor (the path is always /app/auth/callback)
 #           public_key: "{...jwk json here...}", # victor uses public/private keys to verify the signature of JWTs sent from the OpenID Connect provider
-#           verifiers: [
-#             %Victor.AuthenticationConfig.Verifier{type: :everyone} # everyone means anyone who can successfully sign in at the authorize URL
-#           ]
+#           verifiers: [:everyone] # everyone means anyone who can successfully sign in at the authorize URL
 #         }
 #       }
 #     ]

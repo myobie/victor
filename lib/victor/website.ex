@@ -1,10 +1,11 @@
 defmodule Victor.Website do
   defstruct host: nil,
             scheme: "https:",
-            git_repo: %Victor.GitRepo{},
+            repo: %Victor.GitRepo{},
+            remote: %Victor.GitRemote{},
             authentication: nil
 
-  @type t :: %__MODULE__{host: String.t(), git_repo: Victor.GitRepo.t()}
+  @type t :: %__MODULE__{host: String.t(), repo: Victor.GitRepo.t(), remote: Victor.GitRemote.t()}
 
   @spec url(t) :: String.t()
   def url(website) do
