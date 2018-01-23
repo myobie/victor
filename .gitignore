@@ -12,7 +12,4 @@ npm-debug.log
 /config/*.secret.exs
 
 VERSION
-/hugo-dev-site/
-
-# You can place a custom verifier into this repo without forking to restrict authenticated users
-lib/victor/verifier.ex
+/hugo-dev/
