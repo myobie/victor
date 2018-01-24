@@ -24,6 +24,7 @@ defmodule VictorWeb.Router do
 
   pipeline :static_website do
     plug(VictorWeb.DetectWebsitePlug)
+    plug(VictorWeb.StaticWebsitePlug)
     # plug to check if this website requires authentication goes here…
   end
 

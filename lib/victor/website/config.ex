@@ -11,11 +11,11 @@ defmodule Victor.Website.Config do
   end
 
   defp parse_repo_config(path) when is_binary(path) do
-    %Victor.GitRepo{path: path}
+    %Victor.GitRepo{path: Path.expand(path)}
   end
 
   defp parse_repo_config(repo_config) do
-    %Victor.GitRepo{path: repo_config.path}
+    %Victor.GitRepo{path: Path.expand(repo_config.path)}
   end
 
   defp parse_remote_config(url) when is_binary(url) do

@@ -19,6 +19,5 @@ defmodule VictorWeb.DetectWebsitePlugTest do
     Logger.enable(self())
 
     assert not Map.has_key?(conn.assigns, :website)
-    assert conn.status == 404
   end
 end

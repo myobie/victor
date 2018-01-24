@@ -20,12 +20,12 @@ config :victor, :deploy_notification_auth,
 config :victor, :websites, [
   %{
     host: "www.example.com",
-    repo: System.tmp_dir!(),
+    repo: "test/support/repo/",
     remote: "https://example:@github.com/example/example.git"
   },
   %{
     host: "vsoexample.com",
-    repo: System.tmp_dir!(),
+    repo: "test/support/repo/",
     remote: "https://example:@example.visualstudio.com/_git/example"
   }
 ]
