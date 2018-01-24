@@ -16,3 +16,16 @@ config :victor, :open_id_connect,
 config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"
+
+config :victor, :websites, [
+  %{
+    host: "www.example.com",
+    repo: System.tmp_dir!(),
+    remote: "https://example:@github.com/example/example.git"
+  },
+  %{
+    host: "vsoexample.com",
+    repo: System.tmp_dir!(),
+    remote: "https://example:@example.visualstudio.com/_git/example"
+  }
+]

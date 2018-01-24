@@ -19,10 +19,12 @@ defmodule VictorWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:put_secure_browser_headers)
+    plug(:authenticate)
   end
 
-  pipeline :authenticated do
-    plug(:authenticate)
+  pipeline :static_website do
+    plug(VictorWeb.DetectWebsitePlug)
+    # plug to check if this website requires authentication goes here…
   end
 
   def authenticate(conn, _) do
@@ -53,7 +55,6 @@ defmodule VictorWeb.Router do
 
   scope "/app/editor", VictorWeb do
     pipe_through(:feature)
-    pipe_through(:authenticated)
 
     get("/*anything", EditorController, :show)
     post("/", EditorController, :update)
@@ -61,6 +62,7 @@ defmodule VictorWeb.Router do
 
   scope "/", VictorWeb do
     pipe_through(:browser)
+    pipe_through(:static_website)
 
     match(:*, "/*anything", PageController, :not_found)
   end
