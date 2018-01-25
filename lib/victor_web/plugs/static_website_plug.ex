@@ -16,14 +16,10 @@ defmodule VictorWeb.StaticWebsitePlug do
   defp join(paths), do: Path.join(paths)
 
   defp serve(conn, path) do
-    if File.dir?(path) do
-      serve(conn, join([path, "index.html"]))
-    else
-      if File.exists?(path) do
-        serve_file(conn, path)
-      else
-        conn
-      end
+    cond do
+      File.dir?(path) -> serve(conn, join([path, "index.html"]))
+      File.exists?(path) -> serve_file(conn, path)
+      true -> conn
     end
   end
 

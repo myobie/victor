@@ -5,7 +5,7 @@ defmodule VictorWeb.DetectWebsitePlugTest do
 
   test "finds website", ~M{conn} do
     conn = DetectWebsitePlug.call(conn, nil)
-    assert not is_nil conn.assigns.website
+    assert not is_nil(conn.assigns.website)
   end
 
   test "404s for unknown websites", ~M{conn} do

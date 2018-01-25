@@ -12,4 +12,3 @@ defmodule Victor.Website do
     "#{website.scheme}//#{website.host}/"
   end
 end
-

@@ -20,7 +20,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :victor, :websites, [] # default is to have no websites -- override
+# default is to have no websites -- override
+config :victor, :websites, []
 
 # Victor needs to know where to get the hugo site from and where to
 # keep it locally. Place something like this in one of the secret files:
