@@ -1,15 +1,21 @@
 defmodule Victor.EditorTest do
+  import ShorterMaps
   use ExUnit.Case, async: true
 
   alias Victor.Editor
   alias Victor.Editor.{Page, Section}
 
-  test "content in fake hugo site should be parsable" do
-    assert {:ok, _} = Editor.content()
+  setup do
+    website = Victor.Websites.get("www.example.com")
+    {:ok, ~M{website}}
   end
 
-  test "sections and sections parse correctly" do
-    {:ok, sections} = Editor.content()
+  test "content in fake hugo site should be parsable", ~M{website} do
+    assert {:ok, _} = Editor.content(website)
+  end
+
+  test "sections and sections parse correctly", ~M{website} do
+    {:ok, sections} = Editor.content(website)
 
     assert [sec1, sec2, sec3] = sections
 
@@ -18,8 +24,8 @@ defmodule Victor.EditorTest do
     assert length(sec3.sections) == 0
   end
 
-  test "should parse the introduction correctly" do
-    {:ok, sections} = Editor.content()
+  test "should parse the introduction correctly", ~M{website} do
+    {:ok, sections} = Editor.content(website)
     intro = Section.find(sections, "01-introduction")
     index = Section.index(intro)
 
@@ -30,8 +36,8 @@ defmodule Victor.EditorTest do
     assert is_nil(Page.get(index, "categories"))
   end
 
-  test "invalid yaml is fine" do
-    {:ok, sections} = Editor.content()
+  test "invalid yaml is fine", ~M{website} do
+    {:ok, sections} = Editor.content(website)
 
     first_part_of_second_section =
       sections

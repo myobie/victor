@@ -1,25 +1,48 @@
 defmodule Victor.Auth do
-  # @open_id_connect_config Application.get_env(:victor, :open_id_connect)
-  # @authorize_url Keyword.get(@open_id_connect_config, :authorize_url)
-  # @authorize_params Keyword.get(@open_id_connect_config, :authorize_params, %{})
-  # @client_id Keyword.get(@open_id_connect_config, :client_id)
-  # @public_key Keyword.get(@open_id_connect_config, :public_key)
-  # @token_verifier Keyword.get(
-  #                   @open_id_connect_config,
-  #                   :token_verifier,
-  #                   {Victor.Auth, :empty_verifier}
-  #                 )
-  # @default_callback_path URI.parse("/app/auth/callback")
+  @jwk_types ["PS512", "RS512", "ES512"]
+  @scope "openid email"
+  import JOSE.JWT, only: [verify_strict: 3]
 
-  # def config, do: @open_id_connect_config
-  # def authorize_url, do: @authorize_url
-  # def authorize_params, do: @authorize_params
-  # def client_id, do: @client_id
-  # def public_key, do: @public_key
-  # def empty_verifier(_), do: true
+  def allowed_to_visit?(website, id_token) do
+    with {true, %{fields: fields}, _jws} <- verify_strict(website.authentication.public_key, @jwk_types, id_token) do
+      Victor.AuthenticationConfig.allowed?(website.authentication, fields)
+    else
+      _ -> false
+    end
+  end
 
-  @spec redirect_uri :: String.t()
-  def redirect_uri do
-    ""
+  def redirect(:visitor, website) do
+    URI.parse(website.authentication.visitor_authorize_uri)
+    |> redirect(:id_token, website)
+  end
+
+  def redirect(:editor, website) do
+    URI.parse(website.authentication.editor_authorize_uri)
+    |> redirect(:code, website)
+  end
+
+  defp redirect(uri, response_type, website) do
+    state = SecureRandom.hex()
+    nonce = SecureRandom.hex()
+    auth_config = website.authentication
+
+    query =
+      %{
+        state: state,
+        nonce: nonce,
+        response_type: response_type,
+        client_id: auth_config.client_id,
+        redirect_uri: auth_config.redirect_uri,
+        scope: @scope
+      }
+      |> Map.merge(URI.decode_query(uri.query))
+      |> URI.encode_query()
+
+    uri =
+      uri
+      |> Map.put(:query, query)
+      |> to_string()
+
+    {uri, state, nonce}
   end
 end

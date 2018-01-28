@@ -46,7 +46,9 @@ defmodule Victor.Website.Config do
   defp parse_authentication_if_present(site, config) do
     if Map.has_key?(config, :authentication) do
       Map.put(site, :authentication, %Victor.AuthenticationConfig{
-        authorize_url: config.authentication.authorize_url,
+        visitor_authorize_uri: config.authentication.visitor_authorize_uri,
+        editor_authorize_uri: config.authentication.editor_authorize_uri,
+        client_id: config.authentication.client_id,
         redirect_uri: config.authentication.redirect_uri,
         public_key: config.authentication.public_key,
         verifiers: parse_authentication_verifiers(config.authentication.verifiers)

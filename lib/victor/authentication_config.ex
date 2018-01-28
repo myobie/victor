@@ -1,18 +1,25 @@
 defmodule Victor.AuthenticationConfig do
   alias Victor.AuthenticationConfig.Verifier
 
-  defstruct authorize_url: nil,
+  # TODO: support a list of public_keys
+
+  defstruct visitor_authorize_uri: nil,
+            editor_authorize_uri: nil,
+            client_id: nil,
             redirect_uri: nil,
             public_key: nil,
             verifiers: []
 
   @type t :: %__MODULE__{
-          authorize_url: String.t(),
+          visitor_authorize_uri: String.t(),
+          editor_authorize_uri: String.t(),
+          client_id: String.t(),
           redirect_uri: String.t(),
           public_key: String.t(),
           verifiers: [Verifier.t()]
         }
 
+  @spec allowed?(t, map) :: boolean
   def allowed?(%__MODULE__{verifiers: verifiers}, user_info),
     do: Enum.any?(verifiers, & &1.allowed?(user_info))
 end

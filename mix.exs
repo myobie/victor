@@ -62,6 +62,7 @@ defmodule Victor.Mixfile do
       {:jose, "~> 1.8"},
       {:yaml_elixir, "~> 1.3"},
       {:shorter_maps, "~> 2.2"},
+      {:timex, "~> 3.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:distillery, "~> 1.5"},
       {:build_release, github: "myobie/build_release", only: [:dev]}

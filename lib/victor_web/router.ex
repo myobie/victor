@@ -7,11 +7,13 @@ defmodule VictorWeb.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(VictorWeb.DetectWebsitePlug)
   end
 
   pipeline :notifications do
     plug(:accepts, ["html", "json"])
     plug(:put_secure_browser_headers)
+    plug(VictorWeb.DetectWebsitePlug)
   end
 
   pipeline :feature do
@@ -19,26 +21,14 @@ defmodule VictorWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:put_secure_browser_headers)
-    plug(:authenticate)
+    plug(VictorWeb.DetectWebsitePlug)
+    # plug(VictorWeb.RequireAuthenticatedEditorPlug)
   end
 
   pipeline :static_website do
-    plug(VictorWeb.DetectWebsitePlug)
     plug(VictorWeb.StaticWebsitePlug)
-    # plug to check if this website requires authentication goes here…
+    plug(VictorWeb.RequireAuthenticatedUserPlug)
   end
-
-  def authenticate(conn, _) do
-    if authenticated?(conn) do
-      conn
-    else
-      conn
-      |> redirect(to: "/app/signin")
-      |> halt()
-    end
-  end
-
-  def authenticated?(_), do: false
 
   scope "/app", VictorWeb do
     pipe_through(:browser)
