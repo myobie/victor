@@ -3,18 +3,22 @@ defmodule VictorWeb.RequireAuthenticatedUserPlug do
   import Plug.Conn
   import Phoenix.Controller, only: [redirect: 2]
 
-  def init(default), do: default
+  def init(style), do: %{style: style}
 
   def call(%{assigns: %{website: %{authentication: nil}}} = conn, _), do: conn
 
-  def call(%{assigns: %{website: website}} = conn, _) do
+  def call(%{assigns: %{website: _website}} = _conn, %{style: :editor}) do
+    raise "not implemented"
+  end
+
+  def call(%{assigns: %{website: website}} = conn, %{style: :visitor}) do
     with {:ok, id_token} <- fetch_session_id_token(conn),
          true <- Victor.Auth.allowed_to_visit?(website, id_token) do
       conn
     else
       _ ->
         conn
-        |> redirect(to: "/app/signin")
+        |> redirect(to: "/app/signin?style=visitor")
         |> halt()
     end
   end

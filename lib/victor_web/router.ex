@@ -16,18 +16,18 @@ defmodule VictorWeb.Router do
     plug(VictorWeb.DetectWebsitePlug)
   end
 
-  pipeline :feature do
+  pipeline :editor do
     plug(:accepts, ["html", "json"])
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:put_secure_browser_headers)
     plug(VictorWeb.DetectWebsitePlug)
-    # plug(VictorWeb.RequireAuthenticatedEditorPlug)
+    plug(VictorWeb.RequireAuthenticatedUserPlug, :editor)
   end
 
   pipeline :static_website do
     plug(VictorWeb.StaticWebsitePlug)
-    plug(VictorWeb.RequireAuthenticatedUserPlug)
+    plug(VictorWeb.RequireAuthenticatedUserPlug, :visitor)
   end
 
   scope "/app", VictorWeb do
@@ -45,7 +45,7 @@ defmodule VictorWeb.Router do
   end
 
   scope "/app/editor", VictorWeb do
-    pipe_through(:feature)
+    pipe_through(:editor)
 
     get("/*anything", EditorController, :show)
     post("/", EditorController, :update)
