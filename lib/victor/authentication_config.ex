@@ -20,6 +20,6 @@ defmodule Victor.AuthenticationConfig do
         }
 
   @spec allowed?(t, map) :: boolean
-  def allowed?(%__MODULE__{verifiers: verifiers}, user_info),
-    do: Enum.any?(verifiers, & &1.allowed?(user_info))
+  def allowed?(%__MODULE__{verifiers: verifiers}, info),
+    do: Enum.any?(verifiers, & Verifier.allowed?(&1, info))
 end
