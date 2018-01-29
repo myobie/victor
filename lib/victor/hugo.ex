@@ -13,7 +13,7 @@ defmodule Victor.Hugo do
   def initial_setup(site) do
     case System.cmd(
            initial_setup_sh(),
-           [site.repo.path, Website.url(site)],
+           [site.repo.path, site.remote.url],
            stderr_to_stdout: true
          ) do
       {output, 0} -> {:ok, output}

@@ -50,7 +50,7 @@ defmodule Victor.Website.Config do
         editor_authorize_uri: config.authentication.editor_authorize_uri,
         client_id: config.authentication.client_id,
         redirect_uri: config.authentication.redirect_uri,
-        public_key: config.authentication.public_key,
+        public_key: JOSE.JWK.from(config.authentication.public_key),
         verifiers: parse_authentication_verifiers(config.authentication.verifiers)
       })
     else

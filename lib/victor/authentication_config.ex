@@ -15,7 +15,7 @@ defmodule Victor.AuthenticationConfig do
           editor_authorize_uri: String.t(),
           client_id: String.t(),
           redirect_uri: String.t(),
-          public_key: String.t(),
+          public_key: JOSE.JWK.t(),
           verifiers: [Verifier.t()]
         }
 
