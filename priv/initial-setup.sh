@@ -20,7 +20,17 @@ version_path="$path/versions/0"
 current_path="$path/versions/current"
 
 mkdir -p $version_path
-ln -n -f -s $version_path $current_path
+ln -n -s $version_path $current_path || echo "current symlink exists"
 
 cd $path
-git clone $url repo
+
+if [[ -d repo ]]; then
+  cd repo
+  git init
+  git remote rm origin || echo "origin remote not found"
+  git remote add origin $url
+  git checkout master
+  git pull origin master
+else
+  git clone $url repo
+fi

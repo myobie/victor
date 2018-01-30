@@ -1,5 +1,6 @@
 defmodule Victor.Hugo do
   alias Victor.{GitRepo, Website}
+  require Logger
 
   @rev_parse_args ~w(rev-parse --verify HEAD)
 
@@ -8,6 +9,14 @@ defmodule Victor.Hugo do
 
   defp initial_setup_sh, do: Application.app_dir(:victor, "priv/initial-setup.sh")
   defp build_sh, do: Application.app_dir(:victor, "priv/build.sh")
+
+  @spec deploy(Website.t()) :: command_result
+  def deploy(site) do
+    with {:ok, _} <- initial_setup(site),
+         {:ok, _} <- build(site) do
+      {:ok, "success"}
+    end
+  end
 
   @spec initial_setup(Website.t()) :: command_result
   def initial_setup(site) do
@@ -23,13 +32,23 @@ defmodule Victor.Hugo do
 
   @spec build(Website.t(), sha) :: command_result
   def build(site, rev \\ "master") do
+    start_time = Timex.now()
+
     case System.cmd(
            build_sh(),
            [site.repo.path, rev, Website.url(site)],
            stderr_to_stdout: true
          ) do
-      {output, 0} -> {:ok, output}
-      {output, _} -> {:error, output}
+      {output, 0} ->
+        {:ok, sha} = current_rev(site)
+        {short_sha, _} = String.split_at(sha, 9)
+        seconds = Timex.diff(Timex.now(), start_time, :seconds)
+        _ = Logger.info("Built #{short_sha} for #{site.host} in #{seconds} seconds")
+
+        {:ok, output}
+
+      {output, _} ->
+        {:error, output}
     end
   end
 
