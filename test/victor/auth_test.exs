@@ -7,43 +7,43 @@ defmodule Victor.AuthTest do
   @keypair JOSE.JWK.from(Application.get_env(:victor, :test_keypair))
 
   @valid_id_token JOSE.JWT.sign(@keypair, %{
-      iss: "https://vsoexample.com/",
-      sub: 1,
-      aud: "victor",
-      exp: Timex.now() |> Timex.shift(days: 2) |> Timex.to_unix(),
-      iat: Timex.now() |> Timex.to_unix(),
-      auth_time: Timex.now() |> Timex.to_unix(),
-      nonce: "abc",
-      email: "me@vsoexample.com"
-    })
-    |> JOSE.JWS.compact()
-    |> elem(1)
+                    iss: "https://vsoexample.com/",
+                    sub: 1,
+                    aud: "victor",
+                    exp: Timex.now() |> Timex.shift(days: 2) |> Timex.to_unix(),
+                    iat: Timex.now() |> Timex.to_unix(),
+                    auth_time: Timex.now() |> Timex.to_unix(),
+                    nonce: "abc",
+                    email: "me@vsoexample.com"
+                  })
+                  |> JOSE.JWS.compact()
+                  |> elem(1)
 
   @expired_id_token JOSE.JWT.sign(@keypair, %{
-      iss: "https://vsoexample.com/",
-      sub: 1,
-      aud: "victor",
-      exp: Timex.now() |> Timex.shift(days: -2) |> Timex.to_unix(),
-      iat: Timex.now() |> Timex.to_unix(),
-      auth_time: Timex.now() |> Timex.to_unix(),
-      nonce: "abc",
-      email: "me@vsoexample.com"
-    })
-    |> JOSE.JWS.compact()
-    |> elem(1)
+                      iss: "https://vsoexample.com/",
+                      sub: 1,
+                      aud: "victor",
+                      exp: Timex.now() |> Timex.shift(days: -2) |> Timex.to_unix(),
+                      iat: Timex.now() |> Timex.to_unix(),
+                      auth_time: Timex.now() |> Timex.to_unix(),
+                      nonce: "abc",
+                      email: "me@vsoexample.com"
+                    })
+                    |> JOSE.JWS.compact()
+                    |> elem(1)
 
   @invalid_id_token JOSE.JWT.sign(@keypair, %{
-      iss: "https://vsoexample.com/",
-      sub: 1,
-      aud: "victor",
-      exp: Timex.now() |> Timex.shift(days: 2) |> Timex.to_unix(),
-      iat: Timex.now() |> Timex.to_unix(),
-      auth_time: Timex.now() |> Timex.to_unix(),
-      nonce: "abc",
-      email: "me@somewhereelse.com"
-    })
-    |> JOSE.JWS.compact()
-    |> elem(1)
+                      iss: "https://vsoexample.com/",
+                      sub: 1,
+                      aud: "victor",
+                      exp: Timex.now() |> Timex.shift(days: 2) |> Timex.to_unix(),
+                      iat: Timex.now() |> Timex.to_unix(),
+                      auth_time: Timex.now() |> Timex.to_unix(),
+                      nonce: "abc",
+                      email: "me@somewhereelse.com"
+                    })
+                    |> JOSE.JWS.compact()
+                    |> elem(1)
 
   setup do
     website = Victor.Websites.get("vsoexample.com")

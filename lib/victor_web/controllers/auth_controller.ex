@@ -14,6 +14,7 @@ defmodule VictorWeb.AuthController do
       |> delete_session("state")
       |> put_session("id_token", id_token)
       |> redirect(to: "/")
+
       # TODO: make the redirect configurable
     else
       _ -> four_oh_one(conn)

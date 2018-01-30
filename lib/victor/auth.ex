@@ -4,7 +4,8 @@ defmodule Victor.Auth do
   import JOSE.JWT, only: [verify_strict: 3]
 
   def allowed_to_visit?(website, id_token) do
-    with {true, %{fields: fields}, _jws} <- verify_strict(website.authentication.public_key, @jwk_types, id_token),
+    with {true, %{fields: fields}, _jws} <-
+           verify_strict(website.authentication.public_key, @jwk_types, id_token),
          exp <- Timex.from_unix(Map.get(fields, "exp", 0)),
          diff when diff > 0 <- Timex.diff(exp, Timex.now()) do
       Victor.AuthenticationConfig.allowed?(website.authentication, fields)
