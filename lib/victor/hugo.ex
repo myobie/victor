@@ -54,7 +54,7 @@ defmodule Victor.Hugo do
 
   @spec current_rev(Website.t()) :: command_result
   def current_rev(site) do
-    case System.cmd("git", @rev_parse_args, cd: GitRepo.path(site.repo)) do
+    case System.cmd("git", @rev_parse_args, cd: GitRepo.repo_path(site.repo)) do
       {output, 0} -> {:ok, String.trim(output)}
       {output, _} -> {:error, output}
     end
