@@ -28,6 +28,7 @@ defmodule VictorWeb.Router do
   pipeline :static_website do
     plug(:accepts, ["*"])
     plug(:fetch_session)
+    plug(VictorWeb.DetectWebsitePlug)
     plug(VictorWeb.StaticWebsitePlug)
     plug(VictorWeb.RequireAuthenticatedUserPlug, :visitor)
   end
