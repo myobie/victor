@@ -26,6 +26,8 @@ defmodule VictorWeb.Router do
   end
 
   pipeline :static_website do
+    plug(:accepts, ["*"])
+    plug(:fetch_session)
     plug(VictorWeb.StaticWebsitePlug)
     plug(VictorWeb.RequireAuthenticatedUserPlug, :visitor)
   end
@@ -52,7 +54,6 @@ defmodule VictorWeb.Router do
   end
 
   scope "/", VictorWeb do
-    pipe_through(:browser)
     pipe_through(:static_website)
 
     match(:*, "/*anything", PageController, :not_found)

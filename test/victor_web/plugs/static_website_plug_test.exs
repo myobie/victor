@@ -18,6 +18,16 @@ defmodule VictorWeb.StaticWebsitePlugTest do
     assert 200 == conn.status
   end
 
+  test "serves a file in a folder", ~M{conn} do
+    conn =
+      conn
+      |> Map.put(:path_info, ["js/app.js"])
+      |> StaticWebsitePlug.call(nil)
+
+    assert %{halted: true} = conn
+    assert 200 == conn.status
+  end
+
   test "serves the index file of a directory", ~M{conn} do
     conn =
       conn
