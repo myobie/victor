@@ -29,8 +29,8 @@ defmodule VictorWeb.Router do
     plug(:accepts, ["*"])
     plug(:fetch_session)
     plug(VictorWeb.DetectWebsitePlug)
-    plug(VictorWeb.StaticWebsitePlug)
     plug(VictorWeb.RequireAuthenticatedUserPlug, :visitor)
+    plug(VictorWeb.StaticWebsitePlug)
   end
 
   scope "/app", VictorWeb do
