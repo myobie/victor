@@ -2,20 +2,22 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
+    "build": "brunch build",
     "deploy": "brunch build --production",
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
-    "choo": "^6.6.0",
-    "choo-devtools": "^2.2.0",
+    "choo": "^6.6",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html"
   },
   "devDependencies": {
-    "babel-brunch": "6.1.1",
-    "babel-preset-env": "^1.6.1",
-    "brunch": "2.10.9",
-    "clean-css-brunch": "2.10.0",
-    "uglify-js-brunch": "2.10.0"
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "babel-brunch": "github:who-are-you-io/babel-brunch",
+    "babel-preset-minify": "^0.3.0",
+    "brunch": "^2",
+    "choo-devtools": "^2.2",
+    "clean-css-brunch": "^2.10"
   }
 }
