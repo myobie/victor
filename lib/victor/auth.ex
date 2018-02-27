@@ -5,15 +5,35 @@ defmodule Victor.Auth do
   import JOSE.JWT, only: [verify_strict: 3]
 
   def allowed_to_visit?(website, id_token) do
-    with {true, %{fields: fields}, _jws} <-
-           verify_strict(website.authentication.public_key, @jwk_types, id_token),
-         exp = Timex.from_unix(Map.get(fields, "exp", 0)),
-         diff when diff > 0 <- Timex.diff(exp, Timex.now()) do
+    with {:ok, fields} <- verify_public_key(website, id_token),
+         :ok <- is_not_expired(fields) do
       Victor.AuthenticationConfig.allowed?(website.authentication, fields)
     else
       error ->
         _ = Logger.error("Not allowed to visit: #{inspect error}")
         false
+    end
+  end
+
+  defp verify_public_key(website, id_token) do
+    result = verify_strict(website.authentication.public_key, @jwk_types, id_token)
+
+    case result do
+      {true, %{fields: fields}, _jws} -> {:ok, fields}
+      _ -> {:error, :verification_failed}
+    end
+  end
+
+  defp is_not_expired(fields) do
+    exp =
+      fields
+      |> Map.get("exp", 0)
+      |> Timex.from_unix()
+
+    if Timex.diff(exp, Timex.now()) > 0 do
+      :ok
+    else
+      {:error, :already_expired}
     end
   end
 
