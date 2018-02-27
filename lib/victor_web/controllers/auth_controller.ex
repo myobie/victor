@@ -1,4 +1,5 @@
 defmodule VictorWeb.AuthController do
+  require Logger
   use VictorWeb, :controller
 
   def callback(_conn, %{"code" => _code, "state" => _state}) do
@@ -7,8 +8,8 @@ defmodule VictorWeb.AuthController do
   end
 
   def callback(conn, %{"id_token" => id_token, "state" => state}) do
-    with ^state <- get_session(conn, "state"),
-         true <- Victor.Auth.allowed_to_visit?(conn.assigns.website, id_token) do
+    with :ok <- verify_session_state(conn, state),
+         :ok <- verify_allowed_to_visit(conn, id_token) do
       # TODO: just set the info into the session so we don't have to re-verify the id_token every request
       conn
       |> delete_session("state")
@@ -17,7 +18,25 @@ defmodule VictorWeb.AuthController do
 
       # TODO: make the redirect configurable
     else
-      _ -> four_oh_one(conn)
+      error ->
+        _ = Logger.error("error during auth callback: #{inspect {error, id_token}}")
+        four_oh_one(conn)
+    end
+  end
+
+  defp verify_session_state(conn, state) do
+    if state == get_session(conn, "state") do
+      :ok
+    else
+      {:error, :session_state_incorrect}
+    end
+  end
+
+  defp verify_allowed_to_visit(conn, id_token) do
+    if Victor.Auth.allowed_to_visit?(conn.assigns.website, id_token) do
+      :ok
+    else
+      {:error, :not_allowed_to_visit}
     end
   end
 
