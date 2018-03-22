@@ -4,8 +4,8 @@ defmodule Victor.Mixfile do
   def project do
     [
       app: :victor,
-      version: version(),
-      elixir: "~> 1.5",
+      version: "0.1.0",
+      elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -27,15 +27,6 @@ defmodule Victor.Mixfile do
       aliases: aliases(),
       deps: deps()
     ]
-  end
-
-  @default_vsn "0.0.0"
-
-  def version do
-    case File.read("./VERSION") do
-      {:ok, vsn} -> vsn |> String.trim()
-      _ -> @default_vsn
-    end
   end
 
   def application do
@@ -63,9 +54,7 @@ defmodule Victor.Mixfile do
       {:yaml_elixir, "~> 1.3"},
       {:shorter_maps, "~> 2.2"},
       {:timex, "~> 3.1"},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:distillery, "~> 1.5"},
-      {:build_release, github: "myobie/build_release", only: [:dev]}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 

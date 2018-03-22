@@ -13,9 +13,7 @@ config :victor, VictorWeb.Endpoint,
       "--stdin",
       cd: Path.expand("../assets", __DIR__)
     ]
-  ]
-
-config :victor, VictorWeb.Endpoint,
+  ],
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -33,4 +31,6 @@ config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"
 
-import_config "dev.secret.exs"
+config :victor, :websites, []
+
+# import_config "dev.secret.exs"
