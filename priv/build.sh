@@ -50,5 +50,5 @@ hugo --baseURL $baseurl
 ln -n -f -s $version_path $current_path
 
 if [ -n "$old_rev" ]; then
-  rm -rf $old_ev
+  rm -rf $old_rev
 fi
