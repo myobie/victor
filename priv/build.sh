@@ -25,6 +25,7 @@ fi
 origin_rev="origin/$rev"
 repo_path="$path/repo"
 current_path="$path/versions/current"
+old_rev=$(readlink $current_path)
 
 cd $repo_path
 git reset --hard HEAD
@@ -47,3 +48,7 @@ cd $version_path
 hugo --baseURL $baseurl
 
 ln -n -f -s $version_path $current_path
+
+if [ -n "$old_rev" ]; then
+  rm -rf $old_ev
+fi
