@@ -11,11 +11,20 @@
   </url>
   
   <url>
+    <loc>http://example.com/02-second/04-nested/01-nested-again/</loc>
+  </url>
+  
+  <url>
     <loc>http://example.com/03-third/02-example-page-bundle/</loc>
   </url>
   
   <url>
     <loc>http://example.com/02-second/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/02-second/04-nested/</loc>
     <priority>0</priority>
   </url>
   
