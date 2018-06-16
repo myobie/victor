@@ -8,7 +8,7 @@ defmodule Victor.Editor do
       %{errors: [], sections: sections, pages: []} ->
         {:ok, sections}
 
-      %{errors: errors, pages: [_, _]} ->
+      %{errors: errors, pages: [_ | _]} ->
         # NOTE: Should we care?
         {:error, [:top_level_content_pages | errors]}
 
