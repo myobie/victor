@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Example Homepage on Example Hugo Repo</title>
+    <link>http://example.com/</link>
+    <description>Recent content in Example Homepage on Example Hugo Repo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://example.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>http://example.com/01-introduction/03-another-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/03-another-page/</guid>
+      <description>A beautiful beach image:
+  Photo by Lou Liebau on Unsplash.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.com/01-introduction/other-stuff/empty-file/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/other-stuff/empty-file/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.com/03-third/02-example-page-bundle/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/03-third/02-example-page-bundle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Are root pages allowed? The Hugo docs are not clear.</title>
+      <link>http://example.com/example_page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/example_page/</guid>
+      <description>Content content content content content content content.</description>
+    </item>
+    
+    <item>
+      <title>Empty</title>
+      <link>http://example.com/03-third/01-empty-content/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/03-third/01-empty-content/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>First part of the second section</title>
+      <link>http://example.com/02-second/01-first-part/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/02-second/01-first-part/</guid>
+      <description>Fanny pack cloud bread selfies tacos ramps poke woke biodiesel. Godard gastropub butcher direct trade. Raclette cloud bread blue bottle four dollar toast forage. Vaporware meditation adaptogen pok pok thundercats fashion axe live-edge tumblr authentic brooklyn.
+Sartorial ugh post-ironic offal food truck fixie flannel whatever microdosing bespoke tbh. Hot chicken pabst freegan selvage kitsch, mixtape twee yr live-edge craft beer intelligentsia shaman fixie. Poutine mumblecore bushwick heirloom plaid paleo hell of gluten-free cliche synth iceland williamsburg kickstarter.</description>
+    </item>
+    
+    <item>
+      <title>The front-matter here is broken</title>
+      <link>http://example.com/01-introduction/02-other-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/02-other-page/</guid>
+      <description>Artisan raw denim street art art party beard plaid bespoke hammock hot chicken paleo echo park cardigan. IPhone single-origin coffee butcher, banh mi mixtape microdosing yr offal. Man braid knausgaard put a bird on it letterpress cold-pressed microdosing. Cliche heirloom venmo slow-carb etsy wayfarers.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,6 +1,5 @@
 ---
 title: First part of the second section
-crap invalid yaml
 ---
 
 Fanny pack cloud bread selfies tacos ramps poke woke biodiesel. Godard

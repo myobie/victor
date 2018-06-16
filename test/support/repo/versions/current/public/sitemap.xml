@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://example.com/01-introduction/03-another-page/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/01-introduction/other-stuff/empty-file/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/03-third/02-example-page-bundle/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/02-second/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/example_page/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/cat/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/03-third/01-empty-content/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/02-second/01-first-part/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/gray/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/02-second/02-second-subsection/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/01-introduction/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/01-introduction/01-first-subsection/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/03-third/</loc>
+  </url>
+  
+  <url>
+    <loc>http://example.com/01-introduction/02-other-page/</loc>
+  </url>
+  
+</urlset>

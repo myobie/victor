@@ -1,0 +1,1 @@
+This should just be a file and not a page.

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introduction on Example Hugo Repo</title>
+    <link>http://example.com/01-introduction/</link>
+    <description>Recent content in Introduction on Example Hugo Repo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://example.com/01-introduction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>http://example.com/01-introduction/03-another-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/03-another-page/</guid>
+      <description>A beautiful beach image:
+  Photo by Lou Liebau on Unsplash.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.com/01-introduction/other-stuff/empty-file/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/other-stuff/empty-file/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The front-matter here is broken</title>
+      <link>http://example.com/01-introduction/02-other-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.com/01-introduction/02-other-page/</guid>
+      <description>Artisan raw denim street art art party beard plaid bespoke hammock hot chicken paleo echo park cardigan. IPhone single-origin coffee butcher, banh mi mixtape microdosing yr offal. Man braid knausgaard put a bird on it letterpress cold-pressed microdosing. Cliche heirloom venmo slow-carb etsy wayfarers.</description>
+    </item>
+    
+  </channel>
+</rss>
