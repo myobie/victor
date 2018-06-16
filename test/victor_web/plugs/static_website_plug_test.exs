@@ -1,5 +1,4 @@
 defmodule VictorWeb.StaticWebsitePlugTest do
-  import ShorterMaps
   use VictorWeb.ConnCase
   alias VictorWeb.StaticWebsitePlug
 

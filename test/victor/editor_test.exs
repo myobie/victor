@@ -1,6 +1,5 @@
 defmodule Victor.EditorTest do
-  import ShorterMaps
-  use ExUnit.Case, async: true
+  use Victor.UnitCase, async: true
 
   alias Victor.Editor
   alias Victor.Editor.{Page, Section}

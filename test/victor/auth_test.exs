@@ -1,6 +1,5 @@
 defmodule Victor.AuthTest do
-  import ShorterMaps
-  use ExUnit.Case, async: true
+  use Victor.UnitCase, async: true
 
   alias Victor.Auth
 
@@ -55,9 +54,9 @@ defmodule Victor.AuthTest do
   end
 
   test "expired tokens are not allowed to visit", ~M{website} do
-    :ok = Logger.disable(self())
-    refute Auth.allowed_to_visit?(website, @expired_id_token)
-    :ok = Logger.enable(self())
+    disable_logs do
+      refute Auth.allowed_to_visit?(website, @expired_id_token)
+    end
   end
 
   test "invalid tokens are not allowed to visit", ~M{website} do

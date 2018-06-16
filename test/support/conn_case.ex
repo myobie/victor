@@ -19,6 +19,8 @@ defmodule VictorWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+      import ShorterMaps
+      import Victor.TestHelper
       import VictorWeb.Router.Helpers
 
       # The default endpoint for testing

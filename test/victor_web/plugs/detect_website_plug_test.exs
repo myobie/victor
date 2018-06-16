@@ -1,5 +1,4 @@
 defmodule VictorWeb.DetectWebsitePlugTest do
-  import ShorterMaps
   use VictorWeb.ConnCase
   alias VictorWeb.DetectWebsitePlug
 
@@ -9,14 +8,12 @@ defmodule VictorWeb.DetectWebsitePlugTest do
   end
 
   test "404s for unknown websites", ~M{conn} do
-    Logger.disable(self())
-
     conn =
-      conn
-      |> Map.put(:host, "not-a-known-host.com")
-      |> DetectWebsitePlug.call(nil)
-
-    Logger.enable(self())
+      disable_logs do
+        conn
+        |> Map.put(:host, "not-a-known-host.com")
+        |> DetectWebsitePlug.call(nil)
+      end
 
     assert not Map.has_key?(conn.assigns, :website)
   end

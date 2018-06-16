@@ -19,6 +19,8 @@ defmodule VictorWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
+      import ShorterMaps
+      import Victor.TestHelper
 
       # The default endpoint for testing
       @endpoint VictorWeb.Endpoint
