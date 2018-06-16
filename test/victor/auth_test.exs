@@ -55,7 +55,9 @@ defmodule Victor.AuthTest do
   end
 
   test "expired tokens are not allowed to visit", ~M{website} do
+    :ok = Logger.disable(self())
     refute Auth.allowed_to_visit?(website, @expired_id_token)
+    :ok = Logger.enable(self())
   end
 
   test "invalid tokens are not allowed to visit", ~M{website} do
