@@ -33,9 +33,6 @@ defmodule Victor.Editor.Section do
   @spec find(list(t), id) :: t | nil
   def find(sections, id), do: Enum.find(sections, &(&1.id == id))
 
-  @spec index(t) :: Page.t() | nil
-  def index(section), do: page(section, "_index.md")
-
   @spec page(t, id) :: Page.t() | nil
   def page(%__MODULE__{pages: pages}, id), do: Enum.find(pages, &(&1.id == id))
 

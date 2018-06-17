@@ -167,6 +167,7 @@ defmodule Victor.Editor.Content do
     path
     |> Path.join("*")
     |> Path.wildcard()
+    |> Enum.reverse()
   end
 
   @spec slurp(list(Path.t()), Directory.t()) :: {:ok, Directory.t()} | {:error, term}

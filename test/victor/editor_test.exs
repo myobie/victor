@@ -2,7 +2,7 @@ defmodule Victor.EditorTest do
   use Victor.UnitCase, async: true
 
   alias Victor.Editor
-  alias Victor.Editor.{Page, Section}
+  alias Victor.Editor.{Markdown, Section}
 
   setup do
     website = Victor.Websites.get("www.example.com")
@@ -14,36 +14,69 @@ defmodule Victor.EditorTest do
   end
 
   test "sections and sections parse correctly", ~M{website} do
-    {:ok, sections} = Editor.content(website)
+    {:ok, content} = Editor.content(website)
 
-    assert [sec1, sec2, sec3] = sections
+    refute is_nil(content.markdown)
+    assert length(content.pages) == 1
+    assert length(content.resources) == 2
+    assert length(content.children) == 1
 
+    assert [sec1, sec2, sec3] = content.sections
+
+    refute is_nil(sec1.markdown)
     assert length(sec1.sections) == 1
+    assert length(sec1.pages) == 2
+
+    assert is_nil(sec2.markdown)
     assert length(sec2.sections) == 2
+    assert length(sec2.pages) == 1
+
+    refute is_nil(sec3.markdown)
     assert length(sec3.sections) == 0
+
+    assert [page1, page2] = sec3.pages
+    assert page1.id =~ ~r{.md}
+    refute page2.id =~ ~r{.md}
   end
 
   test "should parse the introduction correctly", ~M{website} do
-    {:ok, sections} = Editor.content(website)
-    intro = Section.find(sections, "01-introduction")
-    index = Section.index(intro)
+    {:ok, content} = Editor.content(website)
+    intro = Section.find(content.sections, "01-introduction")
 
     assert not is_nil(intro)
-    assert index.body =~ ~r{^Lorem}
-    assert Page.title(index) == "Introduction"
-    assert not is_nil(Page.get(index, "figure"))
-    assert is_nil(Page.get(index, "categories"))
+    assert intro.markdown.body =~ ~r{^Lorem}
+    assert Section.title(intro) == "Introduction"
+    assert not is_nil(Section.get(intro, "figure"))
+    assert is_nil(Section.get(intro, "categories"))
   end
 
-  test "invalid yaml is fine", ~M{website} do
-    {:ok, sections} = Editor.content(website)
+  test "invalid yaml is fine" do
+    {:ok, _} =
+      Markdown.parse("test.md", """
+      ---
+      title: This yaml is correct
+      ---
 
-    first_part_of_second_section =
-      sections
-      |> Section.find("02-second")
-      |> Section.page("01-first-part.md")
+      Body
+      """)
 
-    assert first_part_of_second_section.front_matter == %{}
-    assert first_part_of_second_section.body =~ ~r{^---\n}
+    {:ok, _} =
+      Markdown.parse("test.md", """
+      ---
+      title: This yaml is not
+      this is not a valid key
+      ---
+
+      Body
+      """)
+
+    {:ok, _} =
+      Markdown.parse("test.md", """
+      ---
+      title: This yaml is not
+      yaml never ends
+
+      Body
+      """)
   end
 end
