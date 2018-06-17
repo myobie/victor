@@ -6,11 +6,11 @@ defmodule Victor.Editor.Markdown do
 
   @type fields :: %{optional(String.t()) => String.t()}
   @type t :: %__MODULE__{
-    path: Path.t(),
-    data: String.t(),
-    body: String.t(),
-    frontmatter: fields
-  }
+          path: Path.t(),
+          data: String.t(),
+          body: String.t(),
+          frontmatter: fields
+        }
 
   @spec parse(Path.t()) :: {:ok, t} | {:error, term}
   @spec parse(Path.t(), String.t()) :: {:ok, t}
@@ -19,6 +19,7 @@ defmodule Victor.Editor.Markdown do
     case File.read(path) do
       {:ok, data} ->
         parse(path, data)
+
       {:error, error} ->
         _ = Logger.error("Error reading file at #{path} #{inspect(error)}")
         {:error, error}
@@ -28,12 +29,13 @@ defmodule Victor.Editor.Markdown do
   def parse(path, data) do
     {body, top} = extract_front_matter(data)
 
-    {:ok, %__MODULE__{
-      path: path,
-      data: data,
-      body: body,
-      frontmatter: top
-    }}
+    {:ok,
+     %__MODULE__{
+       path: path,
+       data: data,
+       body: body,
+       frontmatter: top
+     }}
   end
 
   @top_regex ~r{^---\n(.+)\n---}s

@@ -2,9 +2,9 @@ defmodule Victor.Editor.Directory do
   defstruct path: nil, children: []
 
   @type t :: %__MODULE__{
-    path: Path.t(),
-    children: list(Directory.t() | Victor.Editor.File.t())
-  }
+          path: Path.t(),
+          children: list(Directory.t() | Victor.Editor.File.t())
+        }
 
   # A directory is a section if:
   # * it contains an _index.md

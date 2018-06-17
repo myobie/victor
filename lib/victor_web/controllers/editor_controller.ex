@@ -12,6 +12,7 @@ defmodule VictorWeb.EditorController do
     else
       other ->
         _ = Logger.error("Error loading website content #{inspect(other)}")
+
         conn
         |> put_status(500)
         |> json(%{error: "There was a problem loading the website's contents for editing"})

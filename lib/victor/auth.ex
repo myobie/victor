@@ -10,7 +10,7 @@ defmodule Victor.Auth do
       Victor.AuthenticationConfig.allowed?(website.authentication, fields)
     else
       error ->
-        _ = Logger.error("Not allowed to visit: #{inspect error}")
+        _ = Logger.error("Not allowed to visit: #{inspect(error)}")
         false
     end
   end

@@ -19,7 +19,7 @@ defmodule VictorWeb.AuthController do
       # TODO: make the redirect configurable
     else
       error ->
-        _ = Logger.error("error during auth callback: #{inspect {error, id_token}}")
+        _ = Logger.error("error during auth callback: #{inspect({error, id_token})}")
         four_oh_one(conn)
     end
   end

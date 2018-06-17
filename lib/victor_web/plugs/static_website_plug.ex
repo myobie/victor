@@ -48,6 +48,7 @@ defmodule VictorWeb.StaticWebsitePlug do
 
   defp serve_range(conn, path, range) do
     IO.inspect({:range, path, range})
+
     case parse_range(path, range) do
       {range_start, range_end, range_length, total_size} ->
         conn
@@ -55,6 +56,7 @@ defmodule VictorWeb.StaticWebsitePlug do
         |> put_resp_header("content-range", "bytes #{range_start}-#{range_end}/#{total_size}")
         |> send_file(206, path, range_start, range_length)
         |> halt()
+
       _ ->
         serve_entire_file(conn, path)
     end

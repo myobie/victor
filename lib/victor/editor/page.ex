@@ -16,11 +16,11 @@ defmodule Victor.Editor.Page do
 
   @type fields :: %{optional(String.t()) => String.t()}
   @type t :: %__MODULE__{
-    id: String.t(),
-    path: Path.t(),
-    markdown: Markdown.t(),
-    resources: list(Directory.t() | Editor.File.t())
-  }
+          id: String.t(),
+          path: Path.t(),
+          markdown: Markdown.t(),
+          resources: list(Directory.t() | Editor.File.t())
+        }
 
   @spec get(t, String.t()) :: String.t() | nil
   def get(%__MODULE__{markdown: %{frontmatter: tm}}, field), do: Map.get(tm, field)

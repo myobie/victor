@@ -1,7 +1,12 @@
 defmodule Victor.AuthenticationConfig.Verifier do
   defstruct type: nil, content: nil
 
-  @type types :: :everyone | :email_ends_with? | :email_starts_with? | :email_contains? | :email_is_one_of?
+  @type types ::
+          :everyone
+          | :email_ends_with?
+          | :email_starts_with?
+          | :email_contains?
+          | :email_is_one_of?
 
   @type t :: %__MODULE__{type: types, content: String.t()}
 
