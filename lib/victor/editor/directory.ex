@@ -3,7 +3,7 @@ defmodule Victor.Editor.Directory do
 
   @type t :: %__MODULE__{
           path: Path.t(),
-          children: list(Directory.t() | Victor.Editor.File.t())
+          children: list(t | Victor.Editor.File.t())
         }
 
   # A directory is a section if:
