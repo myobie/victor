@@ -40,7 +40,7 @@ function url (...paths) {
 }
 
 function getFrontMatter (content) {
-  return content.markdown.front_matter
+  return content.markdown.frontmatter
 }
 
 function getTitle (content) {
@@ -264,6 +264,7 @@ function editsListItemView (state, path, value, emit) {
 function store (state, emitter) {
   state.db = {
     content: {
+      id: '_homepage',
       markdown: null,
       sections: [],
       pages: [],
@@ -308,14 +309,16 @@ function store (state, emitter) {
     emitter.emit('render')
   })
 
-  if (window.bootstrapContent && window.bootstrapContent.content) {
-    state.db.content = window.bootstrapContent.content
+  if (window.bootstrapContent) {
+    state.db.content = window.bootstrapContent
     state.db.byPath = indexByPath(state.db.content)
   }
+
+  console.debug('state', state)
 }
 
 function findByPath (state, path) {
-  return state.db.content.byPath[path]
+  return state.db.byPath[path]
 }
 
 const subtypes = ['sections', 'pages', 'resources', 'children', 'invalid']
@@ -347,9 +350,8 @@ function processForPathIndex (item, currentPath, pathMap) {
 
     if (subitems) {
       for (let subitem of subitems) {
-        processForPathIndex(subitem, '', pathMap)
+        processForPathIndex(subitem, currentPath, pathMap)
       }
     }
   }
 }
-
