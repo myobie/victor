@@ -34,7 +34,7 @@ defmodule Victor.Editor.Content do
           {:ok, t | Section.t() | Directory.t() | Page.t()} | {:error, term}
 
   defp scan_directory(path, %__MODULE__{} = content) do
-    case process_paths(ls(path), %Directory{path: path}) do
+    case process_paths(ls(path), Directory.new(path)) do
       {:ok, %Section{} = subsection} -> prepend_to_sections(content, subsection)
       {:ok, %Page{} = page} -> prepend_to_pages(content, page)
       {:ok, %Directory{} = dir} -> prepend_to_children(content, dir)
@@ -43,7 +43,7 @@ defmodule Victor.Editor.Content do
   end
 
   defp scan_directory(path, %Section{} = section) do
-    case process_paths(ls(path), %Directory{path: path}) do
+    case process_paths(ls(path), Directory.new(path)) do
       {:ok, %Section{} = subsection} -> prepend_to_sections(section, subsection)
       {:ok, %Page{} = page} -> prepend_to_pages(section, page)
       {:ok, %Directory{} = dir} -> prepend_to_invalid(section, dir)
@@ -52,7 +52,7 @@ defmodule Victor.Editor.Content do
   end
 
   defp scan_directory(path, %Directory{} = directory) do
-    case process_paths(ls(path), %Directory{path: path}) do
+    case process_paths(ls(path), Directory.new(path)) do
       {:ok, %Section{} = subsection} ->
         # convert me to a section since I contain a section
         section = convert_directory_to_section(directory)
@@ -71,7 +71,7 @@ defmodule Victor.Editor.Content do
   end
 
   defp scan_directory(path, %Page{} = page) do
-    with {:ok, dir} <- slurp(ls(path), %Directory{path: path}) do
+    with {:ok, dir} <- slurp(ls(path), Directory.new(path)) do
       prepend_to_resources(page, dir)
     end
   end
@@ -125,7 +125,7 @@ defmodule Victor.Editor.Content do
         end
 
       {_, _} ->
-        prepend_to_children(dir, %Editor.File{path: path})
+        prepend_to_children(dir, Editor.File.new(path))
     end
   end
 
@@ -138,7 +138,7 @@ defmodule Victor.Editor.Content do
         end
 
       _ ->
-        prepend_to_resources(page, %Editor.File{path: path})
+        prepend_to_resources(page, Editor.File.new(path))
     end
   end
 
@@ -158,7 +158,7 @@ defmodule Victor.Editor.Content do
         end
 
       {_, _} ->
-        prepend_to_resources(acc, %Editor.File{path: path})
+        prepend_to_resources(acc, Editor.File.new(path))
     end
   end
 
@@ -183,13 +183,13 @@ defmodule Victor.Editor.Content do
         slurp(paths, dir)
 
       File.dir?(path) ->
-        with {:ok, subdir} <- slurp(ls(path), %Directory{path: path}),
+        with {:ok, subdir} <- slurp(ls(path), Directory.new(path)),
              {:ok, dir} = prepend_to_children(dir, subdir) do
           slurp(paths, dir)
         end
 
       File.exists?(path) ->
-        {:ok, dir} = prepend_to_children(dir, %Editor.File{path: path})
+        {:ok, dir} = prepend_to_children(dir, Editor.File.new(path))
         slurp(paths, dir)
 
       true ->

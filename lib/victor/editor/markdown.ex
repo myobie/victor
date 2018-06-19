@@ -1,11 +1,13 @@
 defmodule Victor.Editor.Markdown do
   require Logger
+  import Victor.Editor.Helpers
 
   @derive {Poison.Encoder, except: [:path]}
-  defstruct path: nil, data: nil, body: nil, frontmatter: %{}
+  defstruct id: nil, path: nil, data: nil, body: nil, frontmatter: %{}
 
   @type fields :: %{optional(String.t()) => String.t()}
   @type t :: %__MODULE__{
+          id: String.t(),
           path: Path.t(),
           data: String.t(),
           body: String.t(),
@@ -31,6 +33,7 @@ defmodule Victor.Editor.Markdown do
 
     {:ok,
      %__MODULE__{
+       id: get_id(path),
        path: path,
        data: data,
        body: body,

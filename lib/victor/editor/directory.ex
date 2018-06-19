@@ -1,7 +1,10 @@
 defmodule Victor.Editor.Directory do
-  defstruct path: nil, children: []
+  import Victor.Editor.Helpers
+
+  defstruct id: nil, path: nil, children: []
 
   @type t :: %__MODULE__{
+          id: String.t(),
           path: Path.t(),
           children: list(t | Victor.Editor.File.t())
         }
@@ -17,4 +20,9 @@ defmodule Victor.Editor.Directory do
   # * it contains an index.md
   #
   # _A directory that is a sub-directory of a page is never a section._
+
+  @spec new(Path.t()) :: t
+  def new(path) do
+    %__MODULE__{id: get_id(path), path: path}
+  end
 end

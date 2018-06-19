@@ -2,5 +2,5 @@
 </div>
 
 <script>
-  window.bootstrapContent = <%= json_for_javascript(%{sections: @sections}) %>
+  window.bootstrapContent = <%= json_for_javascript(@content) %>
 </script>

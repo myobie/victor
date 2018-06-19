@@ -5,9 +5,9 @@ defmodule VictorWeb.EditorController do
   alias Victor.Editor
 
   def show(conn, _params) do
-    with {:ok, sections} <- Editor.content(conn.assigns.website) do
+    with {:ok, content} <- Editor.content(conn.assigns.website) do
       conn
-      |> assign(:sections, sections)
+      |> assign(:content, content)
       |> render()
     else
       other ->

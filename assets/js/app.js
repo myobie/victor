@@ -40,11 +40,7 @@ function url (...paths) {
 }
 
 function getFrontMatter (content) {
-  if (content.index) {
-    return getFrontMatter(content.index)
-  } else {
-    return content.front_matter
-  }
+  return content.markdown.front_matter
 }
 
 function getTitle (content) {
@@ -57,11 +53,7 @@ function getTitle (content) {
 }
 
 function getBody (content) {
-  if (content.index) {
-    return getBody(content.index)
-  } else {
-    return content.body || ''
-  }
+  return content.markdown.body || ''
 }
 
 function mainView (state, emit) {
@@ -69,7 +61,7 @@ function mainView (state, emit) {
     <div id="editor">
       <div class="topbar">${editorTopbarView(state, emit)}</div>
       <div class="sidebar">
-        ${sectionList(state, state.content.sections, emit)}
+        ${sectionList(state, state.db.content.sections, emit)}
       </div>
       ${singleView(state, emit)}
     </div>
@@ -113,7 +105,7 @@ function sectionListItem (state, section, emit) {
         <span class="section-title">${getTitle(section)}</span>
         <span class="section-id">${section.id}</span>
       </a>
-      ${sectionList(state, section.subsections, emit)}
+      ${sectionList(state, section.sections, emit)}
       ${pageList(state, section.pages, emit)}
     </li>
   `
@@ -229,7 +221,7 @@ function reviewView (state, emit) {
     <div id="editor">
       <div class="topbar">${reviewTopbarView(state, emit)}</div>
       <div class="sidebar">
-        ${sectionList(state, state.content.sections, emit)}
+        ${sectionList(state, state.db.content.sections, emit)}
       </div>
       ${editsListView(state, state.edits, emit)}
     </div>
@@ -270,8 +262,14 @@ function editsListItemView (state, path, value, emit) {
 }
 
 function store (state, emitter) {
-  state.content = {
-    sections: [],
+  state.db = {
+    content: {
+      markdown: null,
+      sections: [],
+      pages: [],
+      resources: [],
+      children: []
+    },
     byPath: {}
   }
   // Edits are stored by the path index of the edited content
@@ -310,49 +308,48 @@ function store (state, emitter) {
     emitter.emit('render')
   })
 
-  if (window.bootstrapContent && window.bootstrapContent.sections) {
-    state.content.sections = window.bootstrapContent.sections
-    state.content.byPath = indexByPath(state.content.sections)
+  if (window.bootstrapContent && window.bootstrapContent.content) {
+    state.db.content = window.bootstrapContent.content
+    state.db.byPath = indexByPath(state.db.content)
   }
 }
 
 function findByPath (state, path) {
-  return state.content.byPath[path]
+  return state.db.content.byPath[path]
 }
 
+const subtypes = ['sections', 'pages', 'resources', 'children', 'invalid']
+
 // Mutates!
-function indexByPath (sections) {
+function indexByPath (content) {
   let pathMap = {}
 
-  for (let section of sections) {
-    processSectionForPathIndex(section, '', pathMap)
-  }
+  content.id = '_homepage' // TODO: this should be returned this way in the api
+
+  processForPathIndex(content, '', pathMap)
 
   return pathMap
 }
 
-function processSectionForPathIndex (section, currentPath, pathMap) {
+function processForPathIndex (item, currentPath, pathMap) {
   let path
   if (currentPath === '') {
-    path = section.id
+    path = item.id
   } else {
-    path = `${currentPath}/${section.id}`
-  }
-  const sectionPath = `${path}/_index.md`
-  section.path = sectionPath
-  pathMap[sectionPath] = section
-
-  for (let subsection of section.subsections) {
-    processSectionForPathIndex(subsection, path, pathMap)
+    path = `${currentPath}/${item.id}`
   }
 
-  for (let page of section.pages) {
-    processPageForPathIndex(page, path, pathMap)
+  item.path = path
+  pathMap[path] = item
+
+  for (let type of subtypes) {
+    let subitems = item[type]
+
+    if (subitems) {
+      for (let subitem of subitems) {
+        processForPathIndex(subitem, '', pathMap)
+      }
+    }
   }
 }
 
-function processPageForPathIndex (page, currentPath, pathMap) {
-  const path = `${currentPath}/${page.id}`
-  page.path = path
-  pathMap[path] = page
-}
