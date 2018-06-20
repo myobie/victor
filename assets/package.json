@@ -2,9 +2,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "build": "brunch build",
-    "deploy": "brunch build --production",
-    "watch": "brunch watch --stdin"
+    "deploy": "parcel build ./js/app.js --out-dir ../priv/static/js/",
+    "watch": "parcel watch ./js/app.js --out-dir ../priv/static/js/"
   },
   "dependencies": {
     "choo": "^6.12.1",
@@ -14,10 +13,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.51",
     "@babel/preset-env": "^7.0.0-beta.51",
-    "babel-brunch": "github:who-are-you-io/babel-brunch",
-    "babel-preset-minify": "^0.4.3",
-    "brunch": "^2",
     "choo-devtools": "^2.5",
-    "clean-css-brunch": "^2.10"
+    "parcel-bundler": "^1.9.2"
   }
 }

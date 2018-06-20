@@ -8,6 +8,7 @@
 erl_crash.dump
 npm-debug.log
 /assets/node_modules
+/assets/.cache
 /priv/static/
 /config/*.secret.exs
 /hugo-dev/

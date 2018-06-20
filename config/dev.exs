@@ -8,9 +8,14 @@ config :victor, VictorWeb.Endpoint,
   static_url: [path: "/app/assets"],
   watchers: [
     node: [
-      "node_modules/brunch/bin/brunch",
+      "node_modules/parcel-bundler/bin/cli.js",
       "watch",
-      "--stdin",
+      "js/app.js",
+      "--out-dir",
+      "../priv/static/js/",
+      "--public-url",
+      "/app/assets/js/",
+      "--no-hmr",
       cd: Path.expand("../assets", __DIR__)
     ]
   ],
