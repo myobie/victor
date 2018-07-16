@@ -1,5 +1,6 @@
 import choo from 'choo'
-import { store } from './store'
+import { mainStore } from './store'
+import { sidebarStore } from './sidebar/store'
 import { mainView } from './main-view'
 
 const app = choo()
@@ -8,7 +9,8 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
 }
 
-app.use(store)
+app.use(mainStore)
+app.use(sidebarStore)
 
 // FIXME: eventually we should have real URLs that indicate the UI state
 app.route('*', (state, emit) => {

@@ -1,3 +1,5 @@
+import { assignCID } from './cid'
+
 const emptyContent = {
   markdown: {
     id: '_index.md',
@@ -12,8 +14,8 @@ const emptyContent = {
   children: []
 }
 
-export function store (state, emitter) {
-  state.content = window.bootstrapContent || emptyContent
+export function mainStore (state, emitter) {
+  state.content = assignCID(window.bootstrapContent || emptyContent)
 
   // Edits are stored by the path index of the edited content
   state.edits = {}
