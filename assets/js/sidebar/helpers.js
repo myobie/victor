@@ -118,8 +118,8 @@ export function indexOfChild (parent, item) {
 
 export function isAbove (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
+
   const lastIndex = first.length - 1
-  console.log({ lastIndex })
 
   for (let i in first) {
     const index = parseInt(i, 10)
@@ -148,6 +148,7 @@ export function isAboveOrEqual (first, second) {
 
 export function isBelow (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
+
   const lastIndex = first.length - 1
 
   for (let i in first) {
