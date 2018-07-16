@@ -15,8 +15,6 @@ export function sidebarStore (globalState, emitter) {
 
   state.db = contentToState(globalState.content)
 
-  // TODO: function to transform the content into the sidebar tree
-
   state.selectedItem = null
 
   resetDragging() // start out resetted
