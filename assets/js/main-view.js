@@ -1,12 +1,13 @@
 import html from 'nanohtml'
 import { css } from 'emotion'
+import { sidebarView } from './sidebar/view'
 
 export function mainView (state, emit) {
   return html`
     <div class="editor">
       <div class="topbar">${editorTopbarView(state, emit)}</div>
       <div class="sidebar">
-        ${sectionList(state, [], emit)}
+        ${sidebarView(state.sidebar, emit)}
       </div>
       ${singleView(state, emit)}
     </div>
@@ -22,18 +23,6 @@ function editorTopbarView (state, emit) {
       Top bar
     </nav>
   `
-}
-
-function sectionList (state, sections, emit) {
-  if (sections.length === 0) {
-    return ''
-  } else {
-    return html`
-      <ul class="sections">
-        ${sections.map(section => section.title)}
-      </ul>
-    `
-  }
 }
 
 function singleView (state, emit) {

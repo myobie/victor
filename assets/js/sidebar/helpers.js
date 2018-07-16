@@ -127,7 +127,7 @@ export function isAbove (first, second) {
     const b = second[i]
 
     if (a > b) { return false }
-    if (lastIndex === index && a === b) { return false }
+    if (lastIndex === index && a === b && first.length === second.length) { return false }
   }
 
   return true
@@ -156,8 +156,10 @@ export function isBelow (first, second) {
     const a = first[i]
     const b = second[i]
 
+    if (index >= second.length) { break }
     if (a < b) { return false }
-    if (lastIndex === index && a === b) { return false }
+    if (lastIndex === index && a === b && second.length > first.length) { return false }
+    if (lastIndex === index && a === b && first.length === second.length) { return false }
   }
 
   return true
@@ -166,15 +168,25 @@ export function isBelow (first, second) {
 export function isBelowOrEqual (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
 
+  const lastIndex = first.length - 1
+
   for (let i in first) {
+    const index = parseInt(i, 10)
     const a = first[i]
     const b = second[i]
 
+    if (index >= second.length) { break }
+    if (lastIndex === index && a === b && second.length > first.length) { return false }
     if (a < b) { return false }
   }
 
   return true
 }
+
+window.isAbove = isAbove
+window.isAboveOrEqual = isAboveOrEqual
+window.isBelowOrEqual = isBelowOrEqual
+window.isBelow = isBelow
 
 export function prevSiblingPath (path) {
   const localIndex = path[path.length - 1]
