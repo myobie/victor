@@ -5,8 +5,8 @@ defmodule VictorWeb.EditorView do
 
   def title(page), do: Editor.Page.title(page)
 
-  def render("show.json", %{sections: sections}) do
-    %{sections: sections}
+  def render("show.json", content) do
+    content
   end
 
   def json_for_javascript(data) do
