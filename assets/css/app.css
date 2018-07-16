@@ -14,16 +14,25 @@ html, body {
                sans-serif;
 }
 
-a {
-  color: var(--navy-color);
+.link {
   text-decoration: none;
 }
 
-a:hover {
+.link:hover {
   text-decoration: underline;
 }
 
-#editor {
+.link:focus {
+  outline: none;
+}
+
+.list-reset {
+  margin: 0 0 1em;
+  padding: 0;
+  list-style-type: none;
+}
+
+.editor {
   height: 100vh;
   width: 100vw;
 
@@ -41,40 +50,16 @@ a:hover {
                        "left right";
 }
 
-#editor h2 {
-  margin: 30px;
-  font-size: 22px;
-  font-weight: normal;
-}
-
 .topbar {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   -ms-grid-row: 1;
   grid-area: top;
   width: 100vw; /* IE11 doesn't stretch this to full width without us setting the width here */
-  background-color: var(--navy-color);
-  color: var(--white-color);
 }
 
 .topbar nav {
   width: 100%;
-  color: var(--white-color);
-}
-
-.topbar nav a {
-  display: inline-block;
-  padding: 8px 12px;
-  margin: 8px;
-  color: var(--white-color);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-.topbar nav a:hover {
-  text-decoration: none;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .sidebar {
@@ -84,53 +69,6 @@ a:hover {
   display: block;
   overflow-y: auto;
   height: calc(100vh - var(--topbar-height));
-  border-right: solid 1px var(--silver-color);
-}
-
-.sidebar .link:focus {
-  outline: none;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.sidebar li a {
-  display: block;
-  padding: 8px 12px;
-  border-bottom: solid 1px var(--silver-color);
-}
-
-.sidebar li a:hover {
-  text-decoration: none;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.sidebar li.selected > a {
-  background-color: var(--yellow-color);
-  color: var(--black-color);
-}
-
-.sidebar .section-title,
-.sidebar .page-title {
-  display: block;
-  font-size: 16px;
-}
-
-.sidebar .section-id,
-.sidebar .page-id {
-  display: block;
-  font-size: 13px;
-}
-
-.sidebar ul ul li a {
-  padding-left: 2em;
-}
-
-.sidebar ul ul ul li a {
-  padding-left: 4em;
 }
 
 .single {
@@ -141,50 +79,3 @@ a:hover {
   height: calc(100vh - var(--topbar-height));
 }
 
-.controls {
-  max-width: 40em;
-  margin: 30px auto;
-}
-
-ul.frontmatter {
-  list-style-type: none;
-  margin: 0 0 30px;
-  padding: 0;
-}
-
-.frontmatter-field input {
-  font-size: 16px;
-  width: 70%;
-}
-
-.edit textarea {
-  width: 100%;
-  font-size: 18px;
-  line-height: 1.5;
-  border: none;
-  height: 10em;
-  outline: none;
-}
-
-.edits-list {
-  list-style-type: none;
-  margin: 30px;
-  padding: 0;
-}
-
-.edits-item {
-  margin: 0;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--silver-color);
-}
-
-.edits-item-path {
-  display: block;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.edits-item-value {
-  display: block;
-  font-size: 13px;
-}

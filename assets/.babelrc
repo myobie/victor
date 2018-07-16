@@ -1,3 +1,21 @@
 {
-  "presets": ["env"]
+  "presets": [
+    "env"
+  ],
+  "plugins": [
+    "nanohtml"
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "babel-plugin-unassert",
+        ["emotion", { "hoist": true }]
+      ]
+    },
+    "development": {
+      "plugins": [
+        ["emotion", { "sourceMap": true, "autoLabel": true }]
+      ]
+    }
+  }
 }
