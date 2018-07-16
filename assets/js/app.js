@@ -1,7 +1,7 @@
 import choo from 'choo'
-import { mainStore } from './store'
-import { sidebarStore } from './sidebar/store'
-import { mainView } from './main-view'
+import { mainStore } from './app/store'
+import { sidebarStore } from './app/sidebar/store'
+import { mainView } from './app/view'
 
 const app = choo()
 

@@ -3,7 +3,8 @@
   "license": "MIT",
   "scripts": {
     "deploy": "parcel build ./js/app.js --out-dir ../priv/static/js/",
-    "watch": "parcel watch ./js/app.js --out-dir ../priv/static/js/"
+    "watch": "parcel watch ./js/app.js --out-dir ../priv/static/js/",
+    "test": "tape -r babel-register js/tests/**/*.js | tap-min"
   },
   "dependencies": {
     "choo": "^6.13.0",
@@ -14,7 +15,11 @@
     "@babel/preset-env": "^7.0.0-beta.53",
     "babel-plugin-emotion": "^9.2.6",
     "babel-plugin-unassert": "^2.1.2",
+    "babel-register": "^6.26.0",
     "choo-devtools": "^2.5",
-    "parcel-bundler": "^1.9.7"
+    "parcel-bundler": "^1.9.7",
+    "standard": "^11.0.1",
+    "tap-min": "^1.2.2",
+    "tape": "^4.9.1"
   }
 }

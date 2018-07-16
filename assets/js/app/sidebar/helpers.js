@@ -183,11 +183,6 @@ export function isBelowOrEqual (first, second) {
   return true
 }
 
-window.isAbove = isAbove
-window.isAboveOrEqual = isAboveOrEqual
-window.isBelowOrEqual = isBelowOrEqual
-window.isBelow = isBelow
-
 export function prevSiblingPath (path) {
   const localIndex = path[path.length - 1]
 
