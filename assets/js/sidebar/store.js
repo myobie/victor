@@ -21,48 +21,48 @@ export function sidebarStore (globalState, emitter) {
 
   resetDragging() // start out resetted
 
-  emitter.on('dragstart', path => {
+  emitter.on('sidebar:dragstart', path => {
     state.isDragging = true
     state.dragging.from = path
     state.dragging.fromItem = findItem(path)
     render()
   })
 
-  emitter.on('dragover', segment => {
+  emitter.on('sidebar:dragover', segment => {
     if (!state.isOver) { return }
     processDragOver(segment)
     render()
   })
 
-  emitter.on('dragenter', path => {
+  emitter.on('sidebar:dragenter', path => {
     state.isOver = true
     state.dragging.over = path
     state.dragging.overItem = findItem(path)
     render()
   })
 
-  emitter.on('dragleave', path => {
+  emitter.on('sidebar:dragleave', path => {
     state.isOver = false
     state.dragging.overMouseSegment = null
     render()
   })
 
-  emitter.on('drop', ({ path, data }) => {
+  emitter.on('sidebar:drop', ({ path, data }) => {
     performPatch()
     // dragend will render
   })
 
-  emitter.on('dragend', () => {
+  emitter.on('sidebar:dragend', () => {
     resetDragging()
     render()
   })
 
-  emitter.on('select', item => {
+  emitter.on('sidebar:select', item => {
     state.selectedItem = item
     render()
   })
 
-  emitter.on('deselect', () => {
+  emitter.on('sidebar:deselect', () => {
     state.selectedItem = null
     render()
   })
