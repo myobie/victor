@@ -4,7 +4,7 @@
   "scripts": {
     "deploy": "parcel build ./js/app.js --out-dir ../priv/static/js/",
     "watch": "parcel watch ./js/app.js --out-dir ../priv/static/js/",
-    "test": "tape -r babel-register js/tests/**/*.js | tap-min"
+    "test": "standard; tape -r babel-register js/tests/**/*.js | tap-min"
   },
   "dependencies": {
     "choo": "^6.13.0",

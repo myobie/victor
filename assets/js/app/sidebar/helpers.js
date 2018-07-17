@@ -119,15 +119,15 @@ export function indexOfChild (parent, item) {
 export function isAbove (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
 
-  const lastIndex = first.length - 1
+  const count = Math.min(first.length, second.length)
+  const lastIndex = count - 1
 
-  for (let i in first) {
-    const index = parseInt(i, 10)
+  for (let i = 0; i < count; ++i) {
     const a = first[i]
     const b = second[i]
 
+    if (lastIndex === i && a === b && first.length >= second.length) { return false }
     if (a > b) { return false }
-    if (lastIndex === index && a === b && first.length === second.length) { return false }
   }
 
   return true
@@ -136,10 +136,14 @@ export function isAbove (first, second) {
 export function isAboveOrEqual (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
 
-  for (let i in first) {
+  const count = Math.min(first.length, second.length)
+  const lastIndex = count - 1
+
+  for (let i = 0; i < count; ++i) {
     const a = first[i]
     const b = second[i]
 
+    if (lastIndex === i && a === b && first.length > second.length) { return false }
     if (a > b) { return false }
   }
 
@@ -149,17 +153,15 @@ export function isAboveOrEqual (first, second) {
 export function isBelow (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
 
+  const count = Math.min(first.length, second.length)
   const lastIndex = first.length - 1
 
-  for (let i in first) {
-    const index = parseInt(i, 10)
+  for (let i = 0; i < count; ++i) {
     const a = first[i]
     const b = second[i]
 
-    if (index >= second.length) { break }
+    if (lastIndex === i && a === b && second.length >= first.length) { return false }
     if (a < b) { return false }
-    if (lastIndex === index && a === b && second.length > first.length) { return false }
-    if (lastIndex === index && a === b && first.length === second.length) { return false }
   }
 
   return true
@@ -168,15 +170,14 @@ export function isBelow (first, second) {
 export function isBelowOrEqual (first, second) {
   if (!Array.isArray(first) || !Array.isArray(second)) { return false }
 
+  const count = Math.min(first.length, second.length)
   const lastIndex = first.length - 1
 
-  for (let i in first) {
-    const index = parseInt(i, 10)
+  for (let i = 0; i < count; ++i) {
     const a = first[i]
     const b = second[i]
 
-    if (index >= second.length) { break }
-    if (lastIndex === index && a === b && second.length > first.length) { return false }
+    if (lastIndex === i && a === b && second.length > first.length) { return false }
     if (a < b) { return false }
   }
 

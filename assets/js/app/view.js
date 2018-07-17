@@ -41,4 +41,3 @@ function singleView (state, emit) {
     `
   }
 }
-

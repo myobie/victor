@@ -35,9 +35,7 @@ function olView (parents, children, state, emit) {
       position: relative;
       width: 100%;
     `}">
-      ${children.map((item, index) => {
-        return itemView(parents, item, index, state, emit)
-      })}
+      ${children.map((item, index) => itemView(parents, item, index, state, emit))}
     </ul>
   `
 }
@@ -52,6 +50,8 @@ function itemView (parents, item, index, state, emit) {
       class=${css`
         box-sizing: border-box;
         position: relative;
+        overflow: visible;
+        outline: ${isArrayEqual(state.dragging.over, path) ? '1px solid rgba(255, 0, 0, 0.2)' : ''};
       `}>
       <div
         class="dropdiv"
@@ -212,7 +212,7 @@ function backgroundColor (state, item) {
   if (state.selectedItem && state.selectedItem._cid === item._cid) {
     return 'yellow'
   } else {
-    return 'white'
+    return 'rgba(255, 255, 255, 0.1)'
   }
 }
 
@@ -222,10 +222,12 @@ function top (state, path) {
   const from = state.dragging.from
   const over = state.dragging.over
 
-  if (isAbove(from, path) && isAboveOrEqual(path, over)) {
+  if (isArrayEqual(from, over)) { return '0' }
+
+  if (isAbove(from, path) && isBelowOrEqual(over, path)) {
     // came from above and I am between where it was and where it wants to go
     return '-34px'
-  } else if (isBelow(from, path) && isBelowOrEqual(path, over)) {
+  } else if (isBelow(from, path) && isAboveOrEqual(over, path)) {
     // came from below and I am between where it was and where it wants to go
     return '34px'
   } else {

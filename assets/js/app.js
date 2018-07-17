@@ -23,4 +23,3 @@ app.mount('.editor')
 // function url (...paths) {
 //   return ['/app/editor'].concat(paths).join('/')
 // }
-
