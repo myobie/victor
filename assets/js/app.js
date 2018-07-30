@@ -1,3 +1,5 @@
+import '../css/app.css'
+
 import choo from 'choo'
 import { mainStore } from './app/store'
 import { sidebarStore } from './app/sidebar/store'

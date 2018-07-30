@@ -2,8 +2,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "parcel build ./js/app.js --out-dir ../priv/static/js/",
-    "watch": "parcel watch ./js/app.js --out-dir ../priv/static/js/",
+    "deploy": "parcel build ./js/app.js --out-dir ../priv/static/bundled/ --public-url /app/assets/bundled/",
+    "watch": "parcel watch ./js/app.js --out-dir ../priv/static/bundled/ --public-url /app/assets/bundled/",
     "test": "standard; tape -r babel-register js/tests/**/*.js | tap-min"
   },
   "dependencies": {
