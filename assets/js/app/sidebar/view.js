@@ -157,7 +157,7 @@ function titleView (parents, item, path, state, emit) {
     e.preventDefault()
 
     if (!state.selectedItem || !isSameItem(state.selectedItem, item)) {
-      emit('sidebar:select', item)
+      emit('sidebar:select', { item, path })
     }
   }
 }

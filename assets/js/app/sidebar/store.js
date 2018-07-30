@@ -55,7 +55,7 @@ export function sidebarStore (globalState, emitter) {
     render()
   })
 
-  emitter.on('sidebar:select', item => {
+  emitter.on('sidebar:select', ({ item, path }) => {
     state.selectedItem = item
     render()
   })
