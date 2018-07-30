@@ -12,8 +12,10 @@ import {
 export function sidebarView (state, emit) {
   return html`
     <div onclick=${_ => emit('sidebar:deselect')} class=${css`
-      min-height: 100%;
-      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
     `}>
       ${listView([], state.db.children, state, emit)}
     </div>
@@ -51,10 +53,11 @@ function itemView (parents, item, index, state, emit) {
         box-sizing: border-box;
         position: relative;
         overflow: visible;
-        outline: ${isArrayEqual(state.dragging.over, path) ? '1px solid rgba(255, 0, 0, 0.2)' : ''};
       `}>
       <div
-        class="dropdiv"
+        class=${css`
+          outline: ${isArrayEqual(state.dragging.over, path) ? '1px solid rgba(255, 0, 0, 0.2)' : ''};
+        `}
         ondragover=${dragover}
         ondragenter=${dragenter}
         ondragleave=${dragleave}
@@ -122,11 +125,12 @@ function titleView (parents, item, path, state, emit) {
         padding: 6px 12px;
         position: relative;
         top: ${top(state, path)};
+        ${border(state, path)}
         z-index: ${zindex};
         opacity: ${opacity(state, path)};
         background-color: ${backgroundColor(state, item)};
       `}>
-      ${item.title}
+      ${path} - ${item.title}
     </p>
   `
 
@@ -232,6 +236,25 @@ function top (state, path) {
     return '34px'
   } else {
     return '0'
+  }
+}
+
+function border (state, path) {
+  if (!state.isDragging) { return 'border: none;' }
+
+  const from = state.dragging.from
+  const over = state.dragging.over
+
+  if (isArrayEqual(from, over)) { return 'border: none;' }
+
+  if (isAbove(from, path) && isBelowOrEqual(over, path)) {
+    // came from above and I am between where it was and where it wants to go
+    return 'border-bottom: 1px solid purple;'
+  } else if (isBelow(from, path) && isAboveOrEqual(over, path)) {
+    // came from below and I am between where it was and where it wants to go
+    return 'border-top: 1px solid purple;'
+  } else {
+    return 'border: none;'
   }
 }
 
