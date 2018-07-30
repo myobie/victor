@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
 }
 
-app.use(mainStore)
+app.use(mainStore(window.bootstrapContent))
 app.use(sidebarStore)
 
 // FIXME: eventually we should have real URLs that indicate the UI state

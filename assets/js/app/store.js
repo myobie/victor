@@ -14,16 +14,18 @@ const emptyContent = {
   children: []
 }
 
-export function mainStore (state, emitter) {
-  state.content = assignCID(window.bootstrapContent || emptyContent)
+export function mainStore (bootstrapContent) {
+  return (state, emitter) => {
+    state.content = assignCID(bootstrapContent || emptyContent)
 
-  // Edits are stored by the path index of the edited content
-  state.edits = {}
-  state.selectedContent = null
+    // Edits are stored by the path index of the edited content
+    state.edits = {}
+    state.selectedContent = null
 
-  emitter.on('content:edit', ({ path, value }) => {
-    state.edits[path] = value
-  })
+    emitter.on('content:edit', ({ path, value }) => {
+      state.edits[path] = value
+    })
 
-  console.debug('state', state)
+    console.debug('state', state)
+  }
 }
