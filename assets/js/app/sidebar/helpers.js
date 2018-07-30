@@ -128,6 +128,7 @@ export function isAbove (first, second) {
 
     if (lastIndex === i && a === b && first.length >= second.length) { return false }
     if (a > b) { return false }
+    if (a < b) { return true }
   }
 
   return true
@@ -145,6 +146,7 @@ export function isAboveOrEqual (first, second) {
 
     if (lastIndex === i && a === b && first.length > second.length) { return false }
     if (a > b) { return false }
+    if (a < b) { return true }
   }
 
   return true
@@ -162,6 +164,7 @@ export function isBelow (first, second) {
 
     if (lastIndex === i && a === b && second.length >= first.length) { return false }
     if (a < b) { return false }
+    if (a > b) { return true }
   }
 
   return true
@@ -179,6 +182,7 @@ export function isBelowOrEqual (first, second) {
 
     if (lastIndex === i && a === b && second.length > first.length) { return false }
     if (a < b) { return false }
+    if (a > b) { return true }
   }
 
   return true

@@ -45,6 +45,9 @@ test('isAbove tests index paths to see if left is less than right', t => {
   t.ok(isAbove([0, 1, 0], [2, 10]), '0, 1, 0 is above 2, 10')
   t.ok(isAbove([0], [2, 0, 2]), '0 is above 2, 0, 2')
 
+  t.ok(isAbove([0, 2, 2], [0, 3, 2]), '0, 2, 2 is above 0, 3, 2')
+  t.ok(isAbove([0, 2, 3], [0, 3, 2]), '0, 2, 3 is above 0, 3, 2')
+
   t.end()
 })
 
@@ -108,8 +111,12 @@ test('isBelow tests index paths to see if left is less than right', t => {
   t.notOk(isBelow([1, 2], [1, 3, 1]), '1, 2 is not below 1, 3, 1')
 
   t.notOk(isBelow([0, 1], [0, 3, 3]), '0, 1 is not below 0, 3, 3')
+  t.notOk(isBelow([0, 1], [0, 3, 3]), '0, 1 is not below 0, 3, 3')
   t.notOk(isBelow([0, 1, 0], [2, 10]), '0, 1, 0 is not below 2, 10')
   t.notOk(isBelow([0], [2, 0, 2]), '0 is not below 2, 0, 2')
+
+  t.ok(isBelow([0, 3, 2], [0, 2, 2]), '0, 3, 2 is below 0, 2, 2')
+  t.ok(isBelow([0, 3, 2], [0, 2, 3]), '0, 3, 2 is below 0, 2, 3')
 
   t.end()
 })
