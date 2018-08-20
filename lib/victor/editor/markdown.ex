@@ -58,12 +58,12 @@ defmodule Victor.Editor.Markdown do
 
   @spec extract_yaml(String.t(), String.t(), Range.t()) :: {String.t(), fields}
   defp extract_yaml(yaml, original, range) do
-    try do
-      tm = YamlElixir.read_from_string(yaml)
-      body = String.slice(original, range) |> String.trim()
-      {body, tm}
-    catch
-      {:yamerl_exception, _} ->
+    case YamlElixir.read_from_string(yaml) do
+      {:ok, tm} ->
+        body = String.slice(original, range) |> String.trim()
+        {body, tm}
+
+      {:error, _} ->
         {original, %{}}
     end
   end

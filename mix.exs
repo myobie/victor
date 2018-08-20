@@ -51,7 +51,7 @@ defmodule Victor.Mixfile do
       {:cowboy, "~> 1.0"},
       {:secure_random, "~> 0.5.1"},
       {:jose, "~> 1.8"},
-      {:yaml_elixir, "~> 1.3"},
+      {:yaml_elixir, "~> 2.1"},
       {:shorter_maps, "~> 2.2"},
       {:timex, "~> 3.1"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
