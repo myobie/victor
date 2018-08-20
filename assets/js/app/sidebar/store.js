@@ -19,10 +19,11 @@ export function sidebarStore (globalState, emitter) {
 
   resetDragging() // start out resetted
 
-  emitter.on('sidebar:dragstart', path => {
+  emitter.on('sidebar:dragstart', ({ path, startClientX }) => {
     state.isDragging = true
     state.dragging.from = path
     state.dragging.fromItem = findItem(path)
+    state.dragging.startClientX = startClientX
     render()
   })
 
@@ -47,7 +48,7 @@ export function sidebarStore (globalState, emitter) {
 
   emitter.on('sidebar:drop', ({ path, data }) => {
     performPatch()
-    // dragend will render
+    render()
   })
 
   emitter.on('sidebar:dragend', () => {
@@ -72,6 +73,7 @@ export function sidebarStore (globalState, emitter) {
     state.isOver = false
 
     state.dragging = {
+      startClientX: null,
       from: null,
       fromItem: null,
       over: null,
@@ -192,6 +194,9 @@ export function sidebarStore (globalState, emitter) {
     state.dragging.overMouseSegment = segment
     state.dragging.overSegment = overSegment
     state.dragging.dropPatch = patch
+
+    // TODO: fix the segment choice, it is not working
+    // console.debug({ segment, overSegment, patch })
   }
 
   function performPatch () {

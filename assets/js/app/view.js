@@ -39,7 +39,6 @@ function editorTopbarView (state, emit) {
       background-color: black;
       color: white;
     `}>
-      Top bar
     </nav>
   `
 }

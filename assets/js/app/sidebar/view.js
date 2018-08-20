@@ -56,29 +56,30 @@ function itemView (parents, item, index, state, emit) {
         overflow: visible;
       `}>
       <div
-        class=${css`
-          outline: ${isArrayEqual(state.dragging.over, path) ? '1px solid rgba(255, 0, 0, 0.2)' : ''};
-        `}
         ondragover=${dragover}
         ondragenter=${dragenter}
         ondragleave=${dragleave}
         ondrop=${drop}>
         ${titleView(parents, item, path, state, emit)}
       </div>
-      ${nestedListView(item, path, state, emit)}
       ${markerView(item, path, state, emit)}
+      ${nestedListView(item, path, state, emit)}
     </li>
   `
 
   function dragover (e) {
     e.preventDefault() // allow drop
 
-    const rect = e.target.getBoundingClientRect()
+    const clientX = e.clientX
 
-    const x = e.clientX - rect.x
-    const segments = Math.floor(rect.width / 32) // every 32 pixels
-    const ratio = x / rect.width
-    const segment = Math.floor(ratio * segments) // which segment is the mouse currently over
+    const p = e.target
+    const dropDiv = p.parentElement
+    const divRect = dropDiv.getBoundingClientRect()
+
+    const x = clientX - state.dragging.startClientX
+    const segments = Math.floor(divRect.width / 32) // every 32 pixels
+    const ratio = x / divRect.width
+    const segment = Math.floor(ratio * segments) + parents.length
 
     if (state.dragging.overMouseSegment !== segment) {
       emit('sidebar:dragover', segment)
@@ -140,10 +141,12 @@ function titleView (parents, item, path, state, emit) {
   function dragstart (e) {
     e.dataTransfer.effectAllowed = 'move'
 
+    const startClientX = e.clientX
+
     const data = JSON.stringify({ path })
     e.dataTransfer.setData('application/json', data)
 
-    emit('sidebar:dragstart', path)
+    emit('sidebar:dragstart', { path, startClientX })
   }
 
   function dragend (e) {
@@ -167,12 +170,11 @@ const markerStyles = css`
   display: block;
   width: 3px;
   background-color: blue;
-  height: 100%;
+  border-radius: 1px;
+  height: 34px;
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease-in, left 0.03s ease-in;
 `
 
 function markerView (item, path, state, emit) {
@@ -243,6 +245,6 @@ function top (state, path) {
 }
 
 function left (state, path) {
-  const left = state.dragging.overSegment || 0
-  return (left * 32) + 3 // 32 is our indent amount and we nudge it a bit to make it more visible
+  const left = state.dragging.overMouseSegment || 0
+  return (left * 32) + 7 // 32 is our indent amount and we nudge it a bit to make it more visible
 }
