@@ -1,5 +1,5 @@
 defmodule Victor.Repo do
-  use Ecto.Repo, otp_app: :victor
+  use Ecto.Repo, otp_app: :victor, adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the

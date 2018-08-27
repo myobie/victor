@@ -24,7 +24,6 @@ config :victor, VictorWeb.Endpoint,
   ]
 
 config :victor, Victor.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: System.get_env("USER"),
   password: "",
   database: "victor_dev",

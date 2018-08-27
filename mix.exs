@@ -61,6 +61,10 @@ defmodule Victor.Mixfile do
 
   defp aliases do
     [
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.migrate", "test"],
+      server: ["phx.server"],
       lint: ["compile", "dialyzer"]
     ]
   end
