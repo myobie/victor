@@ -54,6 +54,7 @@ defmodule Victor.Mixfile do
       {:yaml_elixir, "~> 2.1"},
       {:shorter_maps, "~> 2.2"},
       {:timex, "~> 3.1"},
+      {:ecto_enum, github: "gjaldon/ecto_enum"},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end

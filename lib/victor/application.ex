@@ -8,6 +8,8 @@ defmodule Victor.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
+      # Start the Ecto repository
+      supervisor(Victor.Repo, []),
       # Start the endpoint when the application starts
       supervisor(VictorWeb.Endpoint, [])
       # Start your own worker by calling: Victor.Worker.start_link(arg1, arg2, arg3)

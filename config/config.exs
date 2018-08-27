@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :victor, ecto_repos: []
+config :victor, ecto_repos: [Victor.Repo]
 
 config :victor, VictorWeb.Endpoint,
   url: [host: "localhost"],

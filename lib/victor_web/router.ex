@@ -1,7 +1,7 @@
 defmodule VictorWeb.Router do
   use VictorWeb, :router
 
-  fallback_website = Application.get_env(:victor, :fallback_website)
+  fallback_website = nil
 
   pipeline :browser do
     plug(:accepts, ["html"])

@@ -23,6 +23,14 @@ config :victor, VictorWeb.Endpoint,
     ]
   ]
 
+config :victor, Victor.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("USER"),
+  password: "",
+  database: "victor_dev",
+  hostname: "localhost",
+  pool_size: 10
+
 config :logger, :console, format: "[$level] $message\n"
 
 config :phoenix, :stacktrace_depth, 20
@@ -30,15 +38,3 @@ config :phoenix, :stacktrace_depth, 20
 config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"
-
-hugo_docs_website = %{
-  host: "localhost",
-  repo: Path.expand("./hugo-dev/hugo-docs/"),
-  remote: "https://github.com/gohugoio/hugoDocs.git"
-}
-
-config :victor, :websites, [
-  hugo_docs_website
-]
-
-config :victor, :fallback_website, hugo_docs_website

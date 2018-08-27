@@ -1,5 +1,9 @@
 defmodule Victor.GitRepo do
-  defstruct path: nil
+  use Ecto.Schema
+
+  embedded_schema do
+    field(:path, :string)
+  end
 
   @type t :: %__MODULE__{path: Path.t()}
   @type sha :: String.t()

@@ -1,6 +1,5 @@
 defmodule Victor.GitRemote.VSO do
-  alias Victor.GitRemote
-  @behaviour GitRemote
+  @behaviour Victor.GitRemote.Adapter
 
   def commit(files, rev) do
     _request = build_request(files, rev)
