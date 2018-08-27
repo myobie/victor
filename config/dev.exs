@@ -31,6 +31,14 @@ config :victor, :deploy_notification_auth,
   username: "dev",
   password: "pa55w0rd"
 
-config :victor, :websites, []
+hugo_docs_website = %{
+  host: "localhost",
+  repo: Path.expand("./hugo-dev/hugo-docs/"),
+  remote: "https://github.com/gohugoio/hugoDocs.git"
+}
 
-# import_config "dev.secret.exs"
+config :victor, :websites, [
+  hugo_docs_website
+]
+
+config :victor, :fallback_website, hugo_docs_website

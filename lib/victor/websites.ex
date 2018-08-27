@@ -16,4 +16,7 @@ defmodule Victor.Websites do
       site -> {:ok, site}
     end
   end
+
+  @spec first() :: Victor.Website.t() | nil
+  def first, do: List.first(config())
 end

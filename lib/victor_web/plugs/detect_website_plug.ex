@@ -3,11 +3,19 @@ defmodule VictorWeb.DetectWebsitePlug do
   import Plug.Conn
   require Logger
 
-  def init(default), do: default
+  @type config :: %{fallback: Victor.Website.t()}
 
-  def call(conn, _default) do
+  @spec init() :: config
+  @spec init(config | %{}) :: config
+
+  def init, do: init(%{})
+
+  def init(%{fallback: _} = default), do: default
+  def init(%{}), do: %{fallback: nil}
+
+  def call(conn, %{fallback: fallback}) do
     case Victor.Websites.get(conn.host) do
-      nil -> conn
+      nil -> assign(conn, :website, fallback)
       site -> assign(conn, :website, site)
     end
   end

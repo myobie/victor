@@ -1,19 +1,21 @@
 defmodule VictorWeb.Router do
   use VictorWeb, :router
 
+  fallback_website = Application.get_env(:victor, :fallback_website)
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug(VictorWeb.DetectWebsitePlug)
+    plug(VictorWeb.DetectWebsitePlug, fallback: fallback_website)
   end
 
   pipeline :notifications do
     plug(:accepts, ["html", "json"])
     plug(:put_secure_browser_headers)
-    plug(VictorWeb.DetectWebsitePlug)
+    plug(VictorWeb.DetectWebsitePlug, fallback: fallback_website)
   end
 
   pipeline :editor do
@@ -21,15 +23,15 @@ defmodule VictorWeb.Router do
     plug(:fetch_session)
     plug(:fetch_flash)
     plug(:put_secure_browser_headers)
-    plug(VictorWeb.DetectWebsitePlug)
-    plug(VictorWeb.RequireAuthenticatedUserPlug, :editor)
+    plug(VictorWeb.DetectWebsitePlug, fallback: fallback_website)
+    plug(VictorWeb.RequireAuthenticatedUserPlug)
   end
 
   pipeline :static_website do
     plug(:accepts, ["*"])
     plug(:fetch_session)
-    plug(VictorWeb.DetectWebsitePlug)
-    plug(VictorWeb.RequireAuthenticatedUserPlug, :visitor)
+    plug(VictorWeb.DetectWebsitePlug, fallback: fallback_website)
+    plug(VictorWeb.RequireAuthenticatedUserPlug)
     plug(VictorWeb.StaticWebsitePlug)
   end
 
