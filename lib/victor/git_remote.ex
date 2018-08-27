@@ -19,7 +19,6 @@ defmodule Victor.GitRemote do
   @spec adapter(adapter_types) :: adapters | no_return
   def adapter(type) do
     case type do
-      :missing -> Missing
       :vso -> VSO
       :github -> GitHub
       :bitbucket -> Bitbucket
