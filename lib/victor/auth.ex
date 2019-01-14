@@ -1,5 +1,5 @@
 defmodule Victor.Auth do
-  @open_id_connect_config Application.get_env(:victor, :open_id_connect)
+  @open_id_connect_config Application.get_env(:victor, :open_id_connect, [])
   @authorize_url Keyword.get(@open_id_connect_config, :authorize_url)
   @public_key Keyword.get(@open_id_connect_config, :public_key)
   @token_verifier Keyword.get(@open_id_connect_config, :token_verifier, {Victor.Auth, :empty_verifier})

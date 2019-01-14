@@ -1,7 +1,7 @@
 defmodule Victor.Hugo do
-  @config Application.get_env(:victor, :hugo)
-  @url Keyword.get(@config, :url)
-  @path Keyword.get(@config, :path)
+  @config Application.get_env(:victor, :hugo, [])
+  @url Keyword.get(@config, :url, "")
+  @path Keyword.get(@config, :path, "")
 
   def public_path, do: Path.join([@path, "versions", "current", "public"])
 
