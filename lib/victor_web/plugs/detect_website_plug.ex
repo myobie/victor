@@ -8,10 +8,10 @@ defmodule VictorWeb.DetectWebsitePlug do
   @spec init() :: config
   @spec init(config | %{}) :: config
 
-  def init, do: init(%{})
+  def init, do: init([])
 
-  def init(%{fallback: _} = default), do: default
-  def init(%{}), do: %{fallback: nil}
+  def init(fallback: fallback), do: %{fallback: fallback}
+  def init([]), do: %{fallback: nil}
 
   def call(conn, %{fallback: fallback}) do
     case Victor.Websites.get(conn.host) do

@@ -25,8 +25,13 @@ defmodule Victor.Hugo do
            [site.repo.path, site.remote.url],
            stderr_to_stdout: true
          ) do
-      {output, 0} -> {:ok, output}
-      {output, _} -> {:error, output}
+      {output, 0} ->
+        {:ok, output}
+
+      {output, _} ->
+        _ = Logger.info("Error setting up #{site.host}")
+        _ = Logger.info(output)
+        {:error, output}
     end
   end
 
@@ -48,6 +53,8 @@ defmodule Victor.Hugo do
         {:ok, output}
 
       {output, _} ->
+        _ = Logger.info("Error building #{site.host}")
+        _ = Logger.info(output)
         {:error, output}
     end
   end
